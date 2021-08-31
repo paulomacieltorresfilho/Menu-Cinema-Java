@@ -1,0 +1,19 @@
+package components;
+
+import java.time.LocalTime;
+import java.util.Date;
+
+import components.Filme;
+import components.Sala;
+
+public class Sessao {
+	public Object filme;
+	public Object sala;
+	public Date day;
+	public LocalTime hour;
+	
+	public Sessao() {
+		
+	}
+	
+}

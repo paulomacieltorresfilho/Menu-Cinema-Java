@@ -1,0 +1,16 @@
+package components;
+
+import java.util.ArrayList;
+
+import components.Assento;
+
+public class Sala {
+	public ArrayList< Object > assentos = new ArrayList< Object >();
+	public String type;
+	
+	public Sala() {
+		
+		}
+	}
+	
+}

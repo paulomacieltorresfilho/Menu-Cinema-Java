@@ -1,0 +1,11 @@
+package components;
+
+public class Assento {
+	public String position;
+	public boolean availability;
+	
+	public Assento(String posicao, boolean disponivel) {
+		position = posicao;
+		availability = disponivel;
+	}
+}
