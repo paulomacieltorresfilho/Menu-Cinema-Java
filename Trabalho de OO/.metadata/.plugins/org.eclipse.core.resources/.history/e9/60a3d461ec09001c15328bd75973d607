@@ -1,0 +1,12 @@
+package components;
+
+import components.Sessao;
+import components.Filme;
+
+import java.util.ArrayList;
+
+public class Calendario {
+	private ArrayList< Object >filmes = new ArrayList< Object >();
+	
+	
+}

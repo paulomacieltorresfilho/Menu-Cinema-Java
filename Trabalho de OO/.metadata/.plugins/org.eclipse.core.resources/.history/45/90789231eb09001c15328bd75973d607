@@ -1,0 +1,19 @@
+package components;
+
+import java.util.ArrayList;
+
+import components.Assento;
+
+public class Sala {
+	public ArrayList< Object > assentos = new ArrayList< Object >();
+	public String type;
+	
+	public Sala() {
+		for(int x = 0; x < 10; x++) {
+			for(int y = 0; y < 10; y++) {
+				assentos.add(new Assento(toString(x,y)))
+			}
+		}
+	}
+	
+}

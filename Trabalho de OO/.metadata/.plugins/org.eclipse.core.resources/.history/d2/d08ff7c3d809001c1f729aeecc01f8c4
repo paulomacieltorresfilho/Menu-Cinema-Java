@@ -1,0 +1,8 @@
+package components;
+
+public class Assento {
+	public String position;
+	public boolean availability;
+	
+	
+}
