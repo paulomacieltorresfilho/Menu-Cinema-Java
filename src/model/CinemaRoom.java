@@ -3,11 +3,11 @@ import java.util.ArrayList;
 
 public abstract class CinemaRoom {
     
+	protected static int roomSize = 20;
     protected char room;
     protected boolean room3d;
     protected double ticketPrice;
-    protected ArrayList<Seat> seatList = new ArrayList<Seat>(20);
-    protected static int roomSize = 20;
+    protected ArrayList<Seat> seatList = new ArrayList<Seat>(roomSize);
 
     public CinemaRoom(char room) {
         Seat s;
@@ -51,4 +51,8 @@ public abstract class CinemaRoom {
     public double getTicketPrice() {
         return this.ticketPrice;
     } 
+    
+    public ArrayList<Seat> getSeatList() {
+    	return this.seatList;
+    }
 }

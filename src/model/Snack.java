@@ -8,18 +8,30 @@ public class Snack implements Entity {
     private String name;
     private double price;
     private int stockQuantity;
+    private boolean available;
 
     public Snack(String name, double price, int stockQuantity) {
         this.setName(name);
         this.setPrice(price);
         this.setStockQuantity(stockQuantity);
+        this.checkAvailability();
     }
 
     public void sellSnack(int quantity) {
         int newQuantity = this.getStockQuantity() - quantity;
         if (newQuantity >= 0) {
             this.setStockQuantity(newQuantity);
+            this.checkAvailability();
         }
+    }
+    
+    public void checkAvailability() {
+    	if (this.stockQuantity <= 0) {
+    		this.setAvailable(false);
+    		this.stockQuantity = 0;
+    	} else {
+    		this.setAvailable(true);
+    	}
     }
     
     @Override
@@ -42,6 +54,7 @@ public class Snack implements Entity {
                 break;
             case 2: // Update Quantity
                 this.setStockQuantity((int) e);
+                this.checkAvailability();
                 break;
             default:
                 System.out.println("Opção inválida");
@@ -56,7 +69,7 @@ public class Snack implements Entity {
     public static void viewSnacks() {
         System.out.println("Nome | Quantidade disponível");
         for (Snack s : snackList) {
-            System.out.println(s.getName() + " | " + s.getStockQuantity());
+        	if (s.isAvailable()) System.out.println(s.getName() + " | " + s.getStockQuantity());
         }
     }
     
@@ -111,4 +124,12 @@ public class Snack implements Entity {
     public void setStockQuantity(int stockQuantity) {
         this.stockQuantity = stockQuantity;
     }
+
+	public boolean isAvailable() {
+		return available;
+	}
+
+	public void setAvailable(boolean available) {
+		this.available = available;
+	}
 }

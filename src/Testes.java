@@ -4,7 +4,10 @@ import model.*;
 
 public class Testes {
     public static void main(String[] args) {
-        testSession();
+    	
+    	Movie.viewMovies();
+    	testMovie();
+    	Movie.viewMovies();
     }
     
     public static void testMovie() {
@@ -15,9 +18,6 @@ public class Testes {
         "Aventura",
         135);
         m.register();
-        m.view();
-    
-        System.out.println("---------------------");
     
         m = new Movie("Velozes e Calv(m)os",
         "Os carecas mais velozes do oeste",
@@ -43,16 +43,11 @@ public class Testes {
         10);
         m.register();
     
-        Movie.viewMovies();
-    
         m = Movie.getMovie("TIM, O Filme");
         m.update(2, "AAAAAAAAA SE O MUNDO INTEIRO ME PUDESSE OUVIR");
         m.update(3, 2);
         
         System.out.println("------------------------");
-        m.view();
-        System.out.println("------------------------");
-        Movie.viewMovies(); 
     }
 
     public static void testSession() {
@@ -60,7 +55,7 @@ public class Testes {
         "Tim maia ou TIM? você decide",
         "Azul da cor do mar",
         222);
-        GregorianCalendar gcal = new GregorianCalendar(2021, 9, 12, 13, 30);
+        GregorianCalendar gcal = new GregorianCalendar(2021, 9, 20, 21, 00);
         Session s = new Session(m, gcal, 'a', true, 10.00);
         s.register();
 
@@ -76,7 +71,7 @@ public class Testes {
         "Banana bananana ba nanaan",
         "Amarelo",
         45);
-        gcal = new GregorianCalendar(2021, 9, 20, 21, 0);
+        gcal = new GregorianCalendar(2021, 9, 20, 20, 14);
         s = new Session(m, gcal, 'b', false, 8.50);
         s.register();
         

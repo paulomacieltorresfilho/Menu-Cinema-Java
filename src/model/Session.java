@@ -7,9 +7,11 @@ public class Session
     extends CinemaRoom 
     implements Entity {
 
+	public static ArrayList<Session> sessionList = new ArrayList<Session>();
+	
     private Movie movie;
     private GregorianCalendar date;
-    private ArrayList<String> ticketIdList;
+    private ArrayList<Ticket> ticketList;
     private int purchasedTickets;
     private boolean registered;
 
@@ -17,20 +19,19 @@ public class Session
         super(room);
         this.movie = movie;
         this.date = date;
-        this.ticketIdList = new ArrayList<String>(roomSize);
+        this.ticketList = new ArrayList<Ticket>(roomSize);
         this.purchasedTickets = 0;
         this.registered = false;
     }
     
-    
     @Override
     public void register() {
         if (this.isSessionAvailable()) {
-            Calendar.addSession(this);
+            sessionList.add(this);
             this.registered = true;
         }
     }
-    
+
     @Override
     public void update(int option, Object e) { 
         switch (option) {
@@ -53,6 +54,7 @@ public class Session
     @Override
     public void view() {
         System.out.println(this);
+        System.out.println(this.ticketsInfo());
     }
     
     public void viewSeats() {
@@ -71,7 +73,8 @@ public class Session
     
     @Override
     public void delete() {
-        Calendar.removeSession(this);
+        sessionList.remove(this);
+        this.registered = false;
     }
 
     @Override 
@@ -80,11 +83,52 @@ public class Session
         text += String.format("Filme: %s", this.movie.getName());
         text += String.format("Data: %d/%d/%d \n", this.date.get(GregorianCalendar.DATE), this.date.get(GregorianCalendar.MONTH), this.date.get(GregorianCalendar.YEAR));
         text += String.format("Horário: %2d:%2d \n", this.date.get(GregorianCalendar.HOUR_OF_DAY), this.date.get(GregorianCalendar.MINUTE));
-        text += String.format("Sala: %c \n", this.room);
-        text += String.format("Preço do ingresso: %d \n", this.ticketPrice);
+        text += String.format("Sala: %c", this.room);
+        return text;
+    }
+    
+    public String ticketsInfo() {
+    	String text = "";
+    	text += String.format("Preço do ingresso: %d \n", this.ticketPrice);
         text += String.format("Ingressos disponíveis: %d", roomSize - this.purchasedTickets);
         return text;
     }
+    
+    public static Session getSession(int index) {
+    	return sessionList.get(index);
+    }
+    
+    public static Session getSession(GregorianCalendar date) {
+    	for (Session s : sessionList) {
+    		if (s.getDate().equals(date)) return s;
+    	}
+    	System.out.println("Essa data não possui nenhuma sessão cadastrada");
+    	return null;
+    }
+    
+    public void addTicket(Ticket t) {
+    	if (!this.ticketList.contains(t)) {
+	    	this.ticketList.add(t);
+	    	this.purchasedTickets = this.ticketList.size();
+    	}
+    }
+    
+    public void removeTicket(Ticket t) {
+    	this.ticketList.remove(t);
+    	this.purchasedTickets = this.ticketList.size();
+    }
+    
+    public Ticket getTicket(String id) {
+    	for (Ticket t : this.ticketList) {
+    		if (t.getId().equals(id)) return t;
+    	}
+    	return null;
+    }
+    
+    public Ticket getTicket(int index) {
+    	return this.ticketList.get(index);
+    }
+    
     
     public Movie getMovie() {
         return movie;
@@ -103,7 +147,7 @@ public class Session
     }
 
     public boolean isSessionAvailable() {
-        ArrayList<Session> roomSessionList = Calendar.sessionList.stream().filter(i -> this.room == i.room).collect(Collectors.toCollection(ArrayList<Session>::new));
+        ArrayList<Session> roomSessionList = sessionList.stream().filter(i -> this.room == i.room).collect(Collectors.toCollection(ArrayList<Session>::new));
         GregorianCalendar startOfSession = this.getDate();
         int movieDuration = this.getMovie().getDuration();
         GregorianCalendar endOfSession = (GregorianCalendar) startOfSession.clone();
@@ -122,7 +166,7 @@ public class Session
     }
 
     public boolean isSessionAvailable(Movie movie) {
-        ArrayList<Session> roomSessionList = Calendar.sessionList.stream().filter(i -> this.room == i.room).collect(Collectors.toCollection(ArrayList<Session>::new));
+        ArrayList<Session> roomSessionList = sessionList.stream().filter(i -> this.room == i.room).collect(Collectors.toCollection(ArrayList<Session>::new));
         GregorianCalendar startOfSession = this.getDate();
         int movieDuration = movie.getDuration();
         GregorianCalendar endOfSession = (GregorianCalendar) startOfSession.clone();
@@ -132,7 +176,7 @@ public class Session
             int movieDurationRoom = sessionRoom.getMovie().getDuration();
             GregorianCalendar endOfSessionRoom = (GregorianCalendar) startOfSessionRoom.clone();
             endOfSessionRoom.add(GregorianCalendar.MINUTE, movieDurationRoom);
-            if ( !(startOfSession.compareTo(endOfSessionRoom) > 0 || endOfSession.compareTo(startOfSessionRoom) < 0) ) {
+            if ( !(startOfSession.compareTo(endOfSessionRoom) > 0 || endOfSession.compareTo(startOfSessionRoom) < 0) && !(this.equals(sessionRoom))) {
                 System.out.println("Esta data não está disponível");
                 return false;
             } 
@@ -141,7 +185,7 @@ public class Session
     }
 
     public boolean isSessionAvailable(GregorianCalendar date) {
-        ArrayList<Session> roomSessionList = Calendar.sessionList.stream().filter(i -> this.room == i.room).collect(Collectors.toCollection(ArrayList<Session>::new));
+        ArrayList<Session> roomSessionList = sessionList.stream().filter(i -> this.room == i.room).collect(Collectors.toCollection(ArrayList<Session>::new));
         GregorianCalendar startOfSession = date;
         int movieDuration = this.getMovie().getDuration();
         GregorianCalendar endOfSession = (GregorianCalendar) startOfSession.clone();
@@ -151,7 +195,7 @@ public class Session
             int movieDurationRoom = sessionRoom.getMovie().getDuration();
             GregorianCalendar endOfSessionRoom = (GregorianCalendar) startOfSessionRoom.clone();
             endOfSessionRoom.add(GregorianCalendar.MINUTE, movieDurationRoom);
-            if ( !(startOfSession.compareTo(endOfSessionRoom) > 0 || endOfSession.compareTo(startOfSessionRoom) < 0) ) {
+            if ( !(startOfSession.compareTo(endOfSessionRoom) > 0 || endOfSession.compareTo(startOfSessionRoom) < 0) && !(this.equals(sessionRoom))) {
                 System.out.println("Esta data não está disponível");
                 return false;
             } 
@@ -160,7 +204,7 @@ public class Session
     }
 
     public boolean isSessionAvailable(char room) {
-        ArrayList<Session> roomSessionList = Calendar.sessionList.stream().filter(i -> room == i.room).collect(Collectors.toCollection(ArrayList<Session>::new));
+        ArrayList<Session> roomSessionList = sessionList.stream().filter(i -> room == i.room).collect(Collectors.toCollection(ArrayList<Session>::new));
         GregorianCalendar startOfSession = this.getDate();
         int movieDuration = this.getMovie().getDuration();
         GregorianCalendar endOfSession = (GregorianCalendar) startOfSession.clone();
@@ -170,7 +214,7 @@ public class Session
             int movieDurationRoom = sessionRoom.getMovie().getDuration();
             GregorianCalendar endOfSessionRoom = (GregorianCalendar) startOfSessionRoom.clone();
             endOfSessionRoom.add(GregorianCalendar.MINUTE, movieDurationRoom);
-            if ( !(startOfSession.compareTo(endOfSessionRoom) > 0 || endOfSession.compareTo(startOfSessionRoom) < 0) ) {
+            if ( !(startOfSession.compareTo(endOfSessionRoom) > 0 || endOfSession.compareTo(startOfSessionRoom) < 0)) {
                 System.out.println("Esta data não está disponível");
                 return false;
             } 

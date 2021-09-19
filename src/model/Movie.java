@@ -60,7 +60,7 @@ public class Movie implements Entity{
 
     @Override
     public void delete() {
-        movieList.add(this);
+        movieList.remove(this);
     }
     
     @Override
