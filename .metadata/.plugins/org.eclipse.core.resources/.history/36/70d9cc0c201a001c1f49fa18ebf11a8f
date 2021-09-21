@@ -1,0 +1,12 @@
+package Controller;
+
+import Model.Movie;
+
+public interface Entity {
+	
+	public void register(int pos, Object e);
+	void update(int option, Object e);
+	public void view();
+	public void delete(int pos);
+	
+}

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+    <fullyQualifiedTypeName name="Model.Session"/>
+    <fullyQualifiedTypeName name="java.awt.Font"/>
+    <fullyQualifiedTypeName name="Model.Dados"/>
+    <fullyQualifiedTypeName name="javax.swing.JList"/>
+    <fullyQualifiedTypeName name="java.util.LinkedList"/>
+    <fullyQualifiedTypeName name="javax.swing.ListSelectionModel"/>
+    <fullyQualifiedTypeName name="javax.swing.event.ListSelectionListener"/>
+    <fullyQualifiedTypeName name="Model.Movie"/>
+    <fullyQualifiedTypeName name="javax.swing.JTextField"/>
+    <fullyQualifiedTypeName name="Controller.MovieController"/>
+    <fullyQualifiedTypeName name="javax.swing.JOptionPane"/>
+    <fullyQualifiedTypeName name="com.sun.tools.javap.TryBlockWriter"/>
+    <fullyQualifiedTypeName name="java.security.cert.X509CRLEntry"/>
+    <fullyQualifiedTypeName name="jdk.internal.org.objectweb.asm.tree.TryCatchBlockNode"/>
+    <fullyQualifiedTypeName name="Controller.Entity"/>
+    <fullyQualifiedTypeName name="java.util.ArrayList"/>
+    <fullyQualifiedTypeName name="View.MovieScreenDetails"/>
+    <fullyQualifiedTypeName name="View.ScreenDetailsBase"/>
+    <fullyQualifiedTypeName name="Controller.SnackController"/>
+    <fullyQualifiedTypeName name="Model.Snack"/>
+    <fullyQualifiedTypeName name="java.awt.event.ActionListener"/>
+    <fullyQualifiedTypeName name="View.SnackScreenDetails"/>
+</qualifiedTypeNameHistroy>

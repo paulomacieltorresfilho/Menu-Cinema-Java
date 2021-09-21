@@ -1,0 +1,111 @@
+package View;
+
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
+import Controller.MovieController;
+import Controller.SnackController;
+import Model.Movie;
+import Model.Snack;
+
+public class SnackScreen 
+	extends ScreenBase
+	implements ActionListener, ListSelectionListener {
+	
+
+	private JFrame menu = new JFrame("Filmes");
+	private JLabel title = new JLabel("Lista de filmes");
+	private JButton btAdd = new JButton("Adicionar");
+	private JButton btAtt = new JButton("Atualizar");
+	private JList<String> listSnacks;
+	String[] snacksName = new String[1000];
+	
+	private static SnackController snackDate;
+	ArrayList<Snack> snacks;
+	
+	public SnackScreen(String[] list) {
+		super(snacksName);	
+	}
+	
+	
+	public void showDate(SnackController snackDate) {
+		SnackScreen.snackDate = snackDate;
+		snacks = snackDate.getSnacks();
+		snacksName = snackDate.view(snacksName);
+		
+		listSnacks = new JList<String>(snacksName);
+		
+		//label
+		title.setFont(new Font("Arial", Font.BOLD, 18));
+		title.setBounds(120,10,150,30);
+		
+		menu.add(title);
+
+		//button
+		btAdd.setBounds(70,177,100,30);
+		btAtt.setBounds(200,177,100,30);
+		
+		menu.add(btAdd);
+		menu.add(btAtt);
+		
+		//list
+		listSnacks.setBounds(20,50,350,120);
+		
+		menu.add(listSnacks);
+		
+		//frame
+		menu.setLayout(null);
+		menu.setSize(400,250);
+		menu.setLocation(0, 250);
+		menu.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		menu.setVisible(true);
+		
+		btAdd.addActionListener(this);
+		btAtt.addActionListener(this);
+		listSnacks.addListSelectionListener(this);
+	}
+
+	@Override
+	public void valueChanged(ListSelectionEvent e) {
+		Object src = e.getSource();
+		
+		if(e.getValueIsAdjusting()&& src == listSnacks) {
+			new MovieScreenDetails().showMovie(snackDate, listSnacks.getSelectedIndex(), this);
+		}
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Object src = e.getSource();
+
+		if(src == btAdd) {
+			Snack s = new Snack(null, 0, 0);
+			int pos = snacks.size();
+			snacks.add(pos, s);
+			snackDate.update(snacks);
+			
+			new MovieScreenDetails().showMovie(snackDate, pos, this);
+		}
+		if(src == btAtt) {
+			snacks = snackDate.getSnacks();
+			snacksName = new String[1000];
+			for(int i = 0; i < snacks.size(); i++) {
+				Snack aux;
+				
+				aux = snacks.get(i);
+				snacksName[i] = aux.getName();
+			}
+			listSnacks.setListData(snacksName);
+
+		}
+	}
+}

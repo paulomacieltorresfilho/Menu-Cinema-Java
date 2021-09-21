@@ -1,0 +1,16 @@
+package View;
+
+import java.util.ArrayList;
+
+import Controller.MovieController;
+import Model.Movie;
+
+public class SnackScreenDetails 
+extends ScreenDetailsBase
+implements ActionListener{
+	
+	private SnackController snacksDate;
+	private ArrayList<Snack> snacks;
+	private int pos;
+	
+}

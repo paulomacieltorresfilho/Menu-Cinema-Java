@@ -1,0 +1,10 @@
+package View;
+
+public class ss extends ScreenBase{
+
+	public ss(String[] list) {
+		super(list);
+		// TODO Auto-generated constructor stub
+	}
+	
+}

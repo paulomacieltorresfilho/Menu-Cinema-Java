@@ -1,0 +1,44 @@
+package View;
+
+import java.awt.Font;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
+
+
+public abstract class ScreenBase {
+	private JFrame menu = new JFrame("");
+	private JLabel title = new JLabel("");
+	private JButton btAdd = new JButton("");
+	private JButton btAtt = new JButton("");
+	
+	public ScreenBase(String[] list) {	
+		
+		//label
+		title.setFont(new Font("Arial", Font.BOLD, 18));
+		title.setBounds(120,10,150,30);
+		
+		menu.add(title);
+	
+		//button
+		btAdd.setBounds(70,177,100,30);
+		btAtt.setBounds(200,177,100,30);
+		
+		menu.add(btAdd);
+		menu.add(btAtt);
+		
+		//list
+		list.setBounds(20,50,350,120);
+		
+		menu.add(list);
+		
+		//frame
+		menu.setLayout(null);
+		menu.setSize(400,250);
+		menu.setLocation(0, 250);
+		menu.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		menu.setVisible(true);
+	}	
+}

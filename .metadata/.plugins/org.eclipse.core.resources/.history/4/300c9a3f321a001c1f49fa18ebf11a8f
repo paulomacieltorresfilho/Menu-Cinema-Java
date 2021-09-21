@@ -1,0 +1,16 @@
+package View;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+
+
+public class ScreenBase {
+	private JFrame menu = new JFrame("");
+	private JLabel title = new JLabel("");
+	private JButton btAdd = new JButton("");
+	private JButton btAtt = new JButton("");
+	
+	
+		
+}

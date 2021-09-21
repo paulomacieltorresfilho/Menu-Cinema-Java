@@ -1,0 +1,10 @@
+package Controller;
+
+public interface Entity {
+	
+	public void register(int pos, Object e);
+	void update(Object e);
+	public void view();
+	public void delete(int pos);
+	
+}

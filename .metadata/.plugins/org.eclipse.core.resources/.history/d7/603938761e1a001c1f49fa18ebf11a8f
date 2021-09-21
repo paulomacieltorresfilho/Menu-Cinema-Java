@@ -1,0 +1,6 @@
+package Controller;
+
+public class SnackController {
+	private ArrayList<Snack> SnackList;
+	
+}

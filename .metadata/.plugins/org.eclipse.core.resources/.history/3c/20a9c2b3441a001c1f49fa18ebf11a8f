@@ -1,0 +1,22 @@
+package View;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+
+public abstract class ScreenDetailsBase {
+	private JFrame menu = new JFrame("Detalhes do filme");
+	private JLabel lId = new JLabel("Id: ");
+	private JTextField id;
+	private JLabel lName = new JLabel("Nome: ");
+	private JTextField name;
+	private JLabel lSynopsis = new JLabel("Sinopse: ");
+	private JTextField synopsis;
+	private JLabel lGenre = new JLabel("Gênero: ");
+	private JTextField genre;
+	private JLabel lDuration = new JLabel("Duração: ");
+	private JTextField duration;
+	private JButton save  = new JButton("Salvar");
+	private JButton remove = new JButton("Excluir");
+}

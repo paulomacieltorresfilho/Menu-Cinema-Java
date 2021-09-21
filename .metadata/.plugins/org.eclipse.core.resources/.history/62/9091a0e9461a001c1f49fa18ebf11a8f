@@ -1,0 +1,89 @@
+package View;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
+
+
+import Controller.MovieController;
+import Model.Movie;
+
+public class MovieScreenDetails 
+extends ScreenDetailsBase
+implements ActionListener{
+
+	private MovieController filmsDate;
+	private ArrayList<Movie> films;
+	private int pos;
+	
+	public MovieScreenDetails(MovieController filmsDate, int pos, MovieScreen ms) {
+		super();
+		this.pos = pos;
+		this.filmsDate = filmsDate;
+		films = filmsDate.getFilms();
+		Movie film = films.get(pos);
+			
+		id.setText(String.valueOf(film.getId()));
+		name.setText(film.getName());
+		synopsis.setText(film.getSynopsis());
+		genre.setText(film.getGenre());
+		duration.setText(String.valueOf(film.getDuration()));
+		
+		menu.setTitle("Detalhes do filme");
+		lId.setText("Id: ");
+		lName.setText("Nome: ");
+		lSynopsis.setText("Sinopse: ");
+		lGenre.setText("Gênero: ");
+		lDuration.setText("Duração: ");
+		
+		save.addActionListener(this);
+		remove.addActionListener(this);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Object src = e.getSource();
+		
+		if(src == save) {
+			try {
+				Movie m = new Movie(
+						Integer.valueOf(id.getText()),
+						name.getText(),
+						synopsis.getText(),
+						genre.getText(),
+						Integer.valueOf(duration.getText())
+						);
+				this.filmsDate.delete(pos);
+				this.filmsDate.register(pos, m);
+				messageSave();	
+				
+			} catch (Exception e1) {
+				massageErroRegister();
+			}
+		}
+		if(src == remove) {
+			this.filmsDate.delete(pos);
+			messageRemove();
+		}
+	}
+	
+	public void messageRemove() {
+		JOptionPane.showMessageDialog(null, "Os dados foram excluidos com sucesso!", "Sucesso", 
+				JOptionPane.INFORMATION_MESSAGE);
+		menu.dispose();
+	}
+	public void messageSave() {
+		JOptionPane.showMessageDialog(null, "Os dados foram salvos com sucesso!", "Sucesso", 
+				JOptionPane.INFORMATION_MESSAGE);
+		menu.dispose();
+	}
+	public void massageErroRegister() {
+		JOptionPane.showMessageDialog(null,"ERRO AO SALVAR OS DADOS!\n "
+				+ "Pode ter ocorrido um dos dois erros a seguir:  \n"
+				+ "1. Nem todos os campos foram preenchidos \n"
+				+ "2. id e duração não contém apenas números", "Menssagem de ERRO", 
+				JOptionPane.ERROR_MESSAGE);
+	}
+
+}

@@ -1,0 +1,36 @@
+package Controller;
+
+public class MovieController implements Entity {
+
+	@Override
+	public void register() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void update() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void view() {
+		
+	}
+
+	@Override
+	public void delete() {
+		// TODO Auto-generated method stub	
+	}
+	
+	public String toString() {
+		String s = "";
+		s += "Nome: " + this.name + "\n";
+		s += "Sinopse: " + this.synopsis + "\n";
+		s += "Gênero: " + this.genre + "\n";
+		s += "Duração: " + this.duration;
+		return s;
+	}
+
+}
