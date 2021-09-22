@@ -5,18 +5,16 @@ import java.util.ArrayList;
 import Model.Snack;
 
 public class SnackController implements Entity {
-	private ArrayList<Snack> snacks;
+	private ArrayList<Snack> snacks = new ArrayList<Snack>();
 
 	public  SnackController() {
 		//Dados aleatorios
-		ArrayList<Snack> snacks = new ArrayList<Snack>();
 		for(int i=0; i < 5; i++) {
 			Snack aux = new Snack("Lanche-" + i, i, i);
 			checkAvailability(aux);
-			snacks.add(aux);
+			this.snacks.add(aux);
 		}
 		//end
-		this.snacks = snacks;
 	}
 	
 	public ArrayList<Snack> getSnacks() {
@@ -49,22 +47,24 @@ public class SnackController implements Entity {
 	}
 
 	@Override
-	public void update(int option, Object e) {
-		// TODO Auto-generated method stub	
+	public void update(int pos, Object snack) {
+		snacks.remove(pos);
+		snacks.add(pos, (Snack) snack);	
 	}
 	public void update(ArrayList<Snack> snacks) {
 		this.snacks = snacks;
 	}
 
 	@Override
-	public String[] view(String[] SnacksName) {
+	public String[] view() {
+		String[] snacksName = new String[1000];
 		for(int i = 0; i < snacks.size(); i++) {
 			Snack aux;
 			
 			aux = snacks.get(i);
-			SnacksName[i] = aux.getName();
+			snacksName[i] = aux.getName();
 		}
-		return SnacksName;
+		return snacksName;
 		
 	}
 	@Override

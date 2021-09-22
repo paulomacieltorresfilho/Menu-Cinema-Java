@@ -3,30 +3,43 @@ package Model;
 import java.util.ArrayList;
 
 public abstract class CinemaRoom {
+	protected static int roomSize = 20;
 	protected char room;
 	protected boolean room3D;
 	protected double ticketPrice;
 	protected ArrayList<Seat> seatList = new ArrayList<Seat>(20);
 	
-	
-	private static int roomSize = 20;
-	
 	//constructor
-	public CinemaRoom(char room, boolean room3D, double ticketPrice) {
-		this.room = room;
-		this.room3D = room3D;
-		this.ticketPrice = ticketPrice;
-		
-		int column;
-		Seat s;
-		for (int j = 0; j < roomSize/5; j++) {
-			for (int i = 0; i < roomSize/4; i++) {
-				column = j + 65;
-				s = new Seat(i, column);		
-				this.seatList.add(s);			
-			}
-		}
-	}
+	public CinemaRoom(char room) {
+        Seat s;
+        int column;
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 5; j++) {
+                column = i + 65;
+                s = new Seat(j, column);
+                seatList.add(s);
+            }
+        }
+
+        changeRoom(room);
+    }
+	//talvez colocar em controller
+	public void changeRoom(char room) {   
+	       switch (room) {
+	           case 'a', 'b':
+	               this.room3D = false;
+	               this.ticketPrice = 20.00;
+	               break;
+	           case 'c', 'd':
+	               this.room3D = true;
+	               this.ticketPrice = 30.00;
+	               break;
+	           default:
+	               System.out.println("Opção inválida");
+	               return;
+	       }
+	       this.room = room;
+	    }
 	
 	//gets and sets
 	public char getRoom() {

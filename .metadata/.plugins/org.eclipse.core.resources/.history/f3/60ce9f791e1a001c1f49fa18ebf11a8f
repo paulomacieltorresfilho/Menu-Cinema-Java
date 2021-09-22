@@ -1,8 +1,0 @@
-package Controller;
-
-import Model.Snack;
-
-public class SnackController {
-	private ArrayList<Snack> SnackList;
-	
-}

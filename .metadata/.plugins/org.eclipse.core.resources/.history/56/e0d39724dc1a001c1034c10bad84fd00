@@ -1,0 +1,53 @@
+package Controller;
+
+import java.util.ArrayList;
+import java.util.GregorianCalendar;
+
+import Model.Movie;
+import Model.Session;
+
+public class SessionController implements Entity{
+	private ArrayList<Session> sessions = new ArrayList<Session>();
+	
+	public SessionController() {
+		//Dados aleatorios
+		for(int i=0; i < 5; i++) {
+			Movie m = new Movie(i, "nome-"+i, "qualquercoisa", "Ação", (120+i));
+			GregorianCalendar d = new GregorianCalendar(2021,9,21,(i*3), (i*5));
+			char c;
+			if(i == 0 || i == 4) c = 'a';
+			if(i==2) c ='b';
+			if(i==3) c ='c';
+			else c='d';
+			
+			Session aux = new Session(m, d, c,, i);
+			this.sessions.add(aux);
+		}
+		//end
+	}
+	
+	@Override
+	public void register(int pos, Object e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void update(int option, Object e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public String[] view(String[] s) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void delete(int pos) {
+		// TODO Auto-generated method stub
+		
+	}
+
+}

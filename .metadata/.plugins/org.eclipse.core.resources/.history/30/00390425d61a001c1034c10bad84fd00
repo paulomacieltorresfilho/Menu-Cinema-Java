@@ -1,0 +1,11 @@
+package View;
+
+import java.awt.event.ActionListener;
+
+import javax.swing.event.ListSelectionListener;
+
+public class SessionScreen 
+extends ScreenBase
+implements ActionListener, ListSelectionListener{
+
+}

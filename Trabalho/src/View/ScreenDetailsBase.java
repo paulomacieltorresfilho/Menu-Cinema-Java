@@ -58,7 +58,7 @@ public abstract class ScreenDetailsBase {
 		//frame
 		menu.setLayout(null);
 		menu.setSize(400,250);
-		menu.setLocation(0, 500);
+		menu.setLocation(0, 550);
 		menu.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		menu.setVisible(true);
 	}

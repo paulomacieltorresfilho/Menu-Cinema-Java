@@ -5,21 +5,25 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import Controller.MovieController;
+import Controller.SessionController;
 import Model.Movie;
+import Model.Session;
 
 public class MovieScreenDetails 
 extends ScreenDetailsBase
 implements ActionListener{
 
-	private MovieController filmsDate;
+	private MovieController filmsData;
+	private SessionController sessionData;
 	private ArrayList<Movie> films;
 	private int pos;
 	
-	public MovieScreenDetails(MovieController filmsDate, int pos) {
+	public MovieScreenDetails(MovieController filmsData, int pos, SessionController sessionData) {
 		super();
 		this.pos = pos;
-		this.filmsDate = filmsDate;
-		films = filmsDate.getFilms();
+		this.filmsData = filmsData;
+		this.sessionData = sessionData;
+		films = filmsData.getFilms();
 		Movie film = films.get(pos);
 			
 		l1.setText(String.valueOf(film.getId()));
@@ -52,8 +56,8 @@ implements ActionListener{
 						l4.getText(),
 						Integer.valueOf(l5.getText())
 						);
-				this.filmsDate.delete(pos);
-				this.filmsDate.register(pos, m);
+				this.filmsData.update(pos, m);
+				
 				messageSave();	
 				
 			} catch (Exception e1) {
@@ -61,9 +65,24 @@ implements ActionListener{
 			}
 		}
 		if(src == remove) {
-			this.filmsDate.delete(pos);
+			this.filmsData.delete(pos);
 			messageRemove();
 		}
+		
+		int x = 0;
+		for(Session session: sessionData.getSession()) {
+			int i = 0;
+			for(Movie movie: filmsData.getFilms()) {
+				if(session.getMovie().equals(movie)) {
+					i++;
+				}
+			}
+			if(i == 0) {
+				sessionData.delete(x);
+			}
+			x++;
+		}
+
 	}
 
 }

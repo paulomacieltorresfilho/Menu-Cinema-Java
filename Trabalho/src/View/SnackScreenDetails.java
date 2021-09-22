@@ -12,15 +12,15 @@ public class SnackScreenDetails
 extends ScreenDetailsBase
 implements ActionListener{
 	
-	private SnackController snacksDate;
+	private SnackController snackData;
 	private ArrayList<Snack> snacks;
 	private int pos;
 	
-	public SnackScreenDetails(SnackController snacksDate, int pos) {
+	public SnackScreenDetails(SnackController snackData, int pos) {
 		super();
 		this.pos = pos;
-		this.snacksDate = snacksDate;
-		snacks = snacksDate.getSnacks();
+		this.snackData = snackData;
+		snacks = snackData.getSnacks();
 		Snack snack = snacks.get(pos);
 			
 		l1.setText(snack.getName());
@@ -52,8 +52,7 @@ implements ActionListener{
 						Double.valueOf(l2.getText()),
 						Integer.valueOf(l3.getText())
 						);
-				this.snacksDate.delete(pos);
-				this.snacksDate.register(pos, s);
+				this.snackData.update(pos, s);
 				messageSave();	
 				
 			} catch (Exception e1) {
@@ -61,7 +60,7 @@ implements ActionListener{
 			}
 		}
 		if(src == remove) {
-			this.snacksDate.delete(pos);
+			this.snackData.delete(pos);
 			messageRemove();
 		}
 	}

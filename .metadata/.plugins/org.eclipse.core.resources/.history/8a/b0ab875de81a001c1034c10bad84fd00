@@ -1,0 +1,67 @@
+package View;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
+import Controller.SessionController;
+import Model.Movie;
+import Model.Session;
+
+public class SessionScreen 
+extends ScreenBase
+implements ActionListener, ListSelectionListener{
+
+	String[] sessionsIds = new String[1000];	
+	private static SessionController sessionData;
+	ArrayList<Session> sessions;
+	
+	public SessionScreen(SessionController sessionData) {
+		super();
+		SessionScreen.sessionData = sessionData;
+		sessions = sessionData.getSession();
+		sessionsIds = sessionData.view(sessionsIds);
+		
+		menu.setTitle("Filmes");
+		title.setText("Lista de filmes");
+		
+		list.setListData(sessionsIds);
+		
+		btAdd.addActionListener(this);
+		btAtt.addActionListener(this);
+		list.addListSelectionListener(this);
+	}
+	
+	
+	@Override
+	public void valueChanged(ListSelectionEvent e) {
+		Object src = e.getSource();
+		
+		if(e.getValueIsAdjusting()&& src == list) {
+			new SessionScreenDetails(sessionData, list.getSelectedIndex());
+		}
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Object src = e.getSource();
+
+		if(src == btAdd) {
+			Movie m = new Movie(-1, null, null, null, 0);
+			int pos = sessions.size();
+			sessions.add(pos, m);
+			sessionData.update(sessions);
+			
+			new SessionScreenDetails(sessionData, pos);
+		}
+		if(src == btAtt) {
+			sessionsIds = new String[1000];
+			sessionsIds = sessionData.view(sessionsIds);
+			list.setListData(sessionsIds);
+		}
+	}
+
+}

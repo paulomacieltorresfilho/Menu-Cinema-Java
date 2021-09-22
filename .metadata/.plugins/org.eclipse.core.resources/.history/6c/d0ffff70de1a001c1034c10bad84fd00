@@ -1,0 +1,38 @@
+package View;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
+import Controller.SessionController;
+import Model.Session;
+
+public class SessionScreen 
+extends ScreenBase
+implements ActionListener, ListSelectionListener{
+
+	String[] sessionsIds = new String[1000];	
+	private static SessionController sessionDate;
+	ArrayList<Session> sessions;
+	
+	public SessionScreen(SessionController sessionDate) {
+		
+	}
+	
+	
+	@Override
+	public void valueChanged(ListSelectionEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+}

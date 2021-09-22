@@ -13,25 +13,29 @@ public class Menu implements ActionListener {
 	private JLabel title = new JLabel("Cinema Opções");
 	private static JButton btMovie = new JButton("Filmes");
 	private static JButton btSession = new JButton("Sessões");
+	private static JButton btTicket = new JButton("Ingressos");
 	private static JButton btSnack = new JButton("Lanches");
 	
-	private static MovieController filmsDate = new MovieController();
-	private static SnackController snackDate = new SnackController();
+	private static MovieController filmsData = new MovieController();
+	private static SnackController snackData = new SnackController();
+	private static SessionController sessionData = new SessionController(filmsData.getFilms());
 	
 	public Menu() {
 		title.setFont(new Font("Arial", Font.BOLD, 18));
 		title.setBounds(120,10,150,30);
 		btMovie.setBounds(140,50,100,30);
 		btSession.setBounds(140,100,100,30);
-		btSnack.setBounds(140,150,100,30);
+		btTicket.setBounds(140,150,100,30);
+		btSnack.setBounds(140,200,100,30);
 		
 		menu.add(title);
 		menu.add(btMovie);
 		menu.add(btSession);
+		menu.add(btTicket);
 		menu.add(btSnack);
 		
 		menu.setLayout(null);
-		menu.setSize(400,250);
+		menu.setSize(400,300);
 		//menu.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		menu.setVisible(true);
 	}
@@ -50,13 +54,13 @@ public class Menu implements ActionListener {
 		Object src = e.getSource();
 		
 		if (src == btMovie) {
-			new MovieScreen(filmsDate);
+			new MovieScreen(filmsData, sessionData);
 		}
 		if (src == btSession) {
-			JOptionPane.showMessageDialog(null, "Comando está em construção!");
+			new SessionScreen(sessionData, filmsData);
 		}
 		if (src == btSnack) {
-			new SnackScreen(snackDate);
+			new SnackScreen(snackData);
 		}
 		
 	}

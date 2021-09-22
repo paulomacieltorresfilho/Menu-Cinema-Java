@@ -18,15 +18,15 @@ implements ActionListener, ListSelectionListener {
 	private JButton btBuy = new JButton("comprar");
 	
 	String[] snacksName = new String[1000];
-	private static SnackController snackDate;
+	private static SnackController snackData;
 	ArrayList<Snack> snacks;
 	
 	
-	public SnackScreen(SnackController snackDate) {
+	public SnackScreen(SnackController snackData) {
 		super();
-		SnackScreen.snackDate = snackDate;
-		snacks = snackDate.getSnacks();
-		snacksName = snackDate.view(snacksName);
+		SnackScreen.snackData = snackData;
+		snacks = snackData.getSnacks();
+		snacksName = snackData.view();
 		
 		menu.setTitle("Lanches");
 		title.setText("Lista de Lanches");
@@ -48,7 +48,7 @@ implements ActionListener, ListSelectionListener {
 		Object src = e.getSource();
 		
 		if(e.getValueIsAdjusting()&& src == list) {
-			new SnackScreenDetails(snackDate, list.getSelectedIndex());
+			new SnackScreenDetails(snackData, list.getSelectedIndex());
 		}
 	}
 
@@ -60,13 +60,13 @@ implements ActionListener, ListSelectionListener {
 			Snack s = new Snack(null, 0, 0);
 			int pos = snacks.size();
 			snacks.add(pos, s);
-			snackDate.update(snacks);
+			snackData.update(snacks);
 			
-			new SnackScreenDetails(snackDate, pos);
+			new SnackScreenDetails(snackData, pos);
 		}
 		if(src == btAtt) {
 			snacksName = new String[1000];
-			snacksName = snackDate.view(snacksName);
+			snacksName = snackData.view();
 			list.setListData(snacksName);
 
 		}

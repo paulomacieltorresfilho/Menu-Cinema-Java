@@ -32,14 +32,14 @@ public abstract class ScreenBase {
 		menu.add(btAtt);
 		
 		//list
-		this.list.setBounds(20,50,350,120);
+		list.setBounds(20,50,350,120);
 		
-		menu.add(this.list);
+		menu.add(list);
 		
 		//frame
 		menu.setLayout(null);
 		menu.setSize(400,250);
-		menu.setLocation(0, 250);
+		menu.setLocation(0, 300);
 		menu.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		menu.setVisible(true);
 	}	

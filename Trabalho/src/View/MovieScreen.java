@@ -8,6 +8,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import Controller.MovieController;
+import Controller.SessionController;
 import Model.Movie;
 
 public class MovieScreen 
@@ -15,14 +16,16 @@ extends ScreenBase
 implements ActionListener, ListSelectionListener{
 	
 	String[] filmsName = new String[1000];	
-	private static MovieController filmsDate;
+	private static MovieController filmsData;
 	ArrayList<Movie> films;
+	SessionController sessionData;
 	
-	public MovieScreen(MovieController filmsDate) {
+	public MovieScreen(MovieController filmsData, SessionController sessionData) {
 		super();
-		MovieScreen.filmsDate = filmsDate;
-		films = filmsDate.getFilms();
-		filmsName = filmsDate.view(filmsName);
+		this.sessionData = sessionData;
+		MovieScreen.filmsData = filmsData;
+		films = filmsData.getFilms();
+		filmsName = filmsData.view();
 		
 		menu.setTitle("Filmes");
 		title.setText("Lista de filmes");
@@ -40,9 +43,8 @@ implements ActionListener, ListSelectionListener{
 		Object src = e.getSource();
 		
 		if(e.getValueIsAdjusting()&& src == list) {
-			new MovieScreenDetails(filmsDate, list.getSelectedIndex());
+			new MovieScreenDetails(filmsData, list.getSelectedIndex(), sessionData);
 		}
-		
 	}
 
 	@Override
@@ -53,13 +55,13 @@ implements ActionListener, ListSelectionListener{
 			Movie m = new Movie(-1, null, null, null, 0);
 			int pos = films.size();
 			films.add(pos, m);
-			filmsDate.update(films);
+			filmsData.update(films);
 			
-			new MovieScreenDetails(filmsDate, pos);
+			new MovieScreenDetails(filmsData, pos, sessionData);
 		}
 		if(src == btAtt) {
 			filmsName = new String[1000];
-			filmsName = filmsDate.view(filmsName);
+			filmsName = filmsData.view();
 			list.setListData(filmsName);
 
 		}
