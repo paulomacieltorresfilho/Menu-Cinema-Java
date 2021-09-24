@@ -1,3 +1,0 @@
-INDEX VERSION 1.131+D:\Projetos\TrabalhoOO-T12.2\.metadata\.plugins\org.eclipse.jdt.core
-418441156.index
-1255169380.index
