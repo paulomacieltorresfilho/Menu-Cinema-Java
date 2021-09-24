@@ -24,7 +24,7 @@ implements ActionListener, ListSelectionListener{
 		super();
 		this.sessionData = sessionData;
 		MovieScreen.filmsData = filmsData;
-		films = filmsData.getFilms();
+		films = filmsData.getMovies();
 		filmsName = filmsData.view();
 		
 		menu.setTitle("Filmes");

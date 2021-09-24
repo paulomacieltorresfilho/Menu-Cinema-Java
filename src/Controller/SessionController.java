@@ -7,7 +7,7 @@ import Model.Movie;
 import Model.Session;
 
 public class SessionController implements Entity{
-	private ArrayList<Session> sessions = new ArrayList<Session>();
+	private ArrayList<Session> sessionList = new ArrayList<Session>();
 	
 	public SessionController(ArrayList<Movie> movie) {
 		//Dados aleatorios
@@ -21,37 +21,37 @@ public class SessionController implements Entity{
 			if(i==3) c ='c';
 			
 			Session s = new Session(m, d, c);
-			this.sessions.add(s);
+			this.sessionList.add(s);
 		}
 		//end
 	}
 	
 	public ArrayList<Session> getSession() {
-		return sessions;
+		return sessionList;
 	}
 	
 	@Override
-	public void register(int pos, Object session) {
-		sessions.add(pos, (Session) session);
+	public void register(Object e) {
+		sessionList.add((Session) e);
 	}
 
 	@Override
-	public void update(int pos, Object session) {
-		sessions.remove(pos);
-		sessions.add(pos, (Session) session);
+	public void update(int pos, Object e) {
+		sessionList.remove(pos);
+		sessionList.add(pos, (Session) e);
 	}
 	
 	public void update(ArrayList<Session> sessions) {
-		this.sessions = sessions;
+		this.sessionList = sessions;
 	}
 	
 	@Override
 	public String[] view() {
 		String[] sessionsIds = new String[1000];	
-		for(int i = 0; i < sessions.size(); i++) {
+		for(int i = 0; i < sessionList.size(); i++) {
 			Session aux;
 			
-			aux = this.sessions.get(i);
+			aux = this.sessionList.get(i);
 			sessionsIds[i] = aux.getMovie().getName()+"| Sala "+aux.getRoom();
 		}
 		return sessionsIds;
@@ -59,7 +59,6 @@ public class SessionController implements Entity{
 
 	@Override
 	public void delete(int pos) {
-		sessions.remove(pos);
+		sessionList.remove(pos);
 	}
-
 }

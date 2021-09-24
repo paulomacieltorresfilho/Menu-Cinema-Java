@@ -5,51 +5,51 @@ import java.util.ArrayList;
 import Model.Movie;
 
 public class MovieController implements Entity{
-	ArrayList<Movie> films = new ArrayList<Movie>();
+	ArrayList<Movie> movieList = new ArrayList<Movie>();
 	
 	public MovieController() {		
-		//Dados aleatorios
+		// dados aleatorios
 		for(int i=0; i < 5; i++) {
-			Movie aux = new Movie(i, "nome-"+(i+1), "qualquercoisa", "Ação", (120+i));
-			this.films.add(aux);
-		}
-		//end
+			Movie aux = new Movie(i, "nome-"+(i+1), "qualquercoisa", "Aï¿½ï¿½o", (120+i));
+			this.movieList.add(aux);
+		} 
 	}
 	
-	public ArrayList<Movie> getFilms() {
-		return films;
+	public ArrayList<Movie> getMovies() {
+		return movieList;
 	}
 
 	@Override
-	public void register(int pos, Object film) {
-		films.add(pos, (Movie) film);		
+	public void register(Object e) {
+		movieList.add((Movie) e);		
 	}
 
 	@Override
-	public void update(int pos, Object film) {
-		films.remove(pos);
-		films.add(pos, (Movie) film);	
-		
+	public void update(int pos, Object e) {
+		movieList.remove(pos);
+		movieList.add(pos, (Movie) e);
 	}
+	
 	public void update(ArrayList<Movie> films) {
-		this.films = films;
+		this.movieList = films;
 	}
 
 	@Override
 	public String[] view() {
 		String[] filmsName = new String[1000];	
-		for(int i = 0; i < films.size(); i++) {
+		for(int i = 0; i < movieList.size(); i++) {
 			Movie aux;
 			
-			aux = films.get(i);
+			aux = movieList.get(i);
 			filmsName[i] = aux.getName();
 		}
 		return filmsName;
 		
 	}
+	
 	@Override
 	public void delete(int pos) {
-		films.remove(pos);
+		movieList.remove(pos);
 	}
 
 	
