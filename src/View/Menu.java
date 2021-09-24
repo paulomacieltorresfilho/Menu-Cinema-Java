@@ -10,15 +10,15 @@ import Controller.*;
 
 public class Menu implements ActionListener {
 	private JFrame menu = new JFrame("Menu do Cinema");
-	private JLabel title = new JLabel("Cinema OpÃ§Ãµes");
+	private JLabel title = new JLabel("Cinema Opções");
 	private static JButton btMovie = new JButton("Filmes");
-	private static JButton btSession = new JButton("SessÃµes");
+	private static JButton btSession = new JButton("Sessões");
 	private static JButton btTicket = new JButton("Ingressos");
 	private static JButton btSnack = new JButton("Lanches");
 	
-	private static MovieController movieData = new MovieController();
+	private static MovieController filmsData = new MovieController();
 	private static SnackController snackData = new SnackController();
-	private static SessionController sessionData = new SessionController(movieData.getMovies());
+	private static SessionController sessionData = new SessionController(filmsData.getFilms());
 	
 	public Menu() {
 		title.setFont(new Font("Arial", Font.BOLD, 18));
@@ -54,10 +54,10 @@ public class Menu implements ActionListener {
 		Object src = e.getSource();
 		
 		if (src == btMovie) {
-			new MovieScreen(movieData, sessionData);
+			new MovieScreen(filmsData, sessionData);
 		}
 		if (src == btSession) {
-			new SessionScreen(sessionData, movieData);
+			new SessionScreen(sessionData, filmsData);
 		}
 		if (src == btSnack) {
 			new SnackScreen(snackData);

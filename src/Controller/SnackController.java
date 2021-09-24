@@ -42,13 +42,14 @@ public class SnackController implements Entity {
     
     
 	@Override
-	public void register(Object e) {
-		snacks.add((Snack) e);		
+	public void register(int pos, Object snack) {
+		snacks.add(pos, (Snack) snack);		
 	}
 
 	@Override
-	public void update(int option, Object e) {
-		// TODO
+	public void update(int pos, Object snack) {
+		snacks.remove(pos);
+		snacks.add(pos, (Snack) snack);	
 	}
 	public void update(ArrayList<Snack> snacks) {
 		this.snacks = snacks;

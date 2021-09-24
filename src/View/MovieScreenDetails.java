@@ -13,31 +13,31 @@ public class MovieScreenDetails
 extends ScreenDetailsBase
 implements ActionListener{
 
-	private MovieController movieData;
+	private MovieController filmsData;
 	private SessionController sessionData;
-	private ArrayList<Movie> movieList;
+	private ArrayList<Movie> films;
 	private int pos;
 	
-	public MovieScreenDetails(MovieController movieData, int pos, SessionController sessionData) {
+	public MovieScreenDetails(MovieController filmsData, int pos, SessionController sessionData) {
 		super();
 		this.pos = pos;
-		this.movieData = movieData;
+		this.filmsData = filmsData;
 		this.sessionData = sessionData;
-		movieList = movieData.getMovies();
-		Movie movie = movieList.get(pos);
+		films = filmsData.getFilms();
+		Movie film = films.get(pos);
 			
-		l1.setText(String.valueOf(movie.getId()));
-		l2.setText(movie.getName());
-		l3.setText(movie.getSynopsis());
-		l4.setText(movie.getGenre());
-		l5.setText(String.valueOf(movie.getDuration()));
+		l1.setText(String.valueOf(film.getId()));
+		l2.setText(film.getName());
+		l3.setText(film.getSynopsis());
+		l4.setText(film.getGenre());
+		l5.setText(String.valueOf(film.getDuration()));
 		
 		menu.setTitle("Detalhes do filme");
 		lL1.setText("Id: ");
 		lL2.setText("Nome: ");
 		lL3.setText("Sinopse: ");
-		lL4.setText("Gï¿½nero: ");
-		lL5.setText("Duraï¿½ï¿½o: ");
+		lL4.setText("Gênero: ");
+		lL5.setText("Duração: ");
 		
 		save.addActionListener(this);
 		remove.addActionListener(this);
@@ -56,7 +56,7 @@ implements ActionListener{
 						l4.getText(),
 						Integer.valueOf(l5.getText())
 						);
-				this.movieData.update(pos, m);
+				this.filmsData.update(pos, m);
 				
 				messageSave();	
 				
@@ -65,14 +65,14 @@ implements ActionListener{
 			}
 		}
 		if(src == remove) {
-			this.movieData.delete(pos);
+			this.filmsData.delete(pos);
 			messageRemove();
 		}
 		
 		int x = 0;
 		for(Session session: sessionData.getSession()) {
 			int i = 0;
-			for(Movie movie: movieData.getMovies()) {
+			for(Movie movie: filmsData.getFilms()) {
 				if(session.getMovie().equals(movie)) {
 					i++;
 				}
