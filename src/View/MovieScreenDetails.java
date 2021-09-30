@@ -68,19 +68,23 @@ implements ActionListener{
 			this.filmsData.delete(pos);
 			messageRemove();
 		}
-		
-		int x = 0;
-		for(Session session: sessionData.getSession()) {
-			int i = 0;
-			for(Movie movie: filmsData.getFilms()) {
-				if(session.getMovie().equals(movie)) {
-					i++;
+		try {
+			int x = 0;
+			for(Session session: sessionData.getSession()) {
+				int i = 0;
+				for(Movie movie: filmsData.getFilms()) {
+					if(session.getMovie().equals(movie)) {
+						i++;
+					}
 				}
+				if(i == 0) {
+					sessionData.delete(x);
+				}
+				x++;
 			}
-			if(i == 0) {
-				sessionData.delete(x);
-			}
-			x++;
+			
+		} catch (Exception e2) {
+			// TODO: handle exception
 		}
 
 	}

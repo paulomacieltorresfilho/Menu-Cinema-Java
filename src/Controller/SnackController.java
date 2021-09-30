@@ -42,8 +42,8 @@ public class SnackController implements Entity {
     
     
 	@Override
-	public void register(int pos, Object snack) {
-		snacks.add(pos, (Snack) snack);		
+	public void register(Object snack) {
+		snacks.add((Snack) snack);		
 	}
 
 	@Override

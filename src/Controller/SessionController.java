@@ -31,8 +31,8 @@ public class SessionController implements Entity{
 	}
 	
 	@Override
-	public void register(int pos, Object session) {
-		sessions.add(pos, (Session) session);
+	public void register(Object session) {
+		sessions.add((Session) session);
 	}
 
 	@Override

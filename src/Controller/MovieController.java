@@ -21,8 +21,8 @@ public class MovieController implements Entity{
 	}
 
 	@Override
-	public void register(int pos, Object film) {
-		films.add(pos, (Movie) film);		
+	public void register(Object film) {
+		films.add((Movie) film);		
 	}
 
 	@Override

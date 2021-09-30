@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import javax.swing.JButton;
 
 import Controller.SnackController;
 import Model.Snack;
@@ -14,6 +15,7 @@ implements ActionListener{
 	
 	private SnackController snackData;
 	private ArrayList<Snack> snacks;
+	private JButton sellSnack = new JButton("Comprar");
 	private int pos;
 	
 	public SnackScreenDetails(SnackController snackData, int pos) {
@@ -29,6 +31,11 @@ implements ActionListener{
 		l4.setVisible(false);
 		l5.setVisible(false);
 		
+		save.setBounds(30,177,100,30);
+		remove.setBounds(140,177,100,30);
+		sellSnack.setBounds(250,177,100,30);
+		
+		menu.add(sellSnack);
 		
 		menu.setTitle("Detalhes do lanche");
 		lL1.setText("Nome: ");
@@ -39,6 +46,7 @@ implements ActionListener{
 		
 		save.addActionListener(this);
 		remove.addActionListener(this);
+		sellSnack.addActionListener(this);
 	}
 	
 	@Override
@@ -62,6 +70,10 @@ implements ActionListener{
 		if(src == remove) {
 			this.snackData.delete(pos);
 			messageRemove();
+		}
+		if(src == sellSnack) {
+			new sellSnackScreen(snackData, pos);
+			menu.dispose();
 		}
 	}
 	
