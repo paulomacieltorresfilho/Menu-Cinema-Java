@@ -1,13 +1,12 @@
 package model;
 
+import controller.SessionController;
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class Session 
     extends CinemaRoom 
     implements Entity {
-
-	public static ArrayList<Session> sessionList = new ArrayList<Session>();
 	
     private Movie movie;
     private GregorianCalendar date;
@@ -27,7 +26,7 @@ public class Session
     
     public void register() {
         if (this.isSessionAvailable()) {
-            sessionList.add(this);
+            SessionController.register(this);
             this.registered = true;
         }
     }
@@ -73,7 +72,7 @@ public class Session
     
     @Override
     public void delete() {
-        sessionList.remove(this);
+        SessionController.remove(this);
         this.registered = false;
     }
 
@@ -92,18 +91,6 @@ public class Session
     	text += String.format("Preço do ingresso: %d \n", this.ticketPrice);
         text += String.format("Ingressos disponíveis: %d", roomSize - this.purchasedTickets);
         return text;
-    }
-    
-    public static Session getSession(int index) {
-    	return sessionList.get(index);
-    }
-    
-    public static Session getSession(GregorianCalendar date) {
-    	for (Session s : sessionList) {
-    		if (s.getDate().equals(date)) return s;
-    	}
-    	System.out.println("Essa data não possui nenhuma sessão cadastrada");
-    	return null;
     }
     
     public void addTicket(Ticket t) {
@@ -147,7 +134,7 @@ public class Session
     }
 
     public boolean isSessionAvailable() {
-        ArrayList<Session> roomSessionList = sessionList.stream().filter(i -> this.room == i.room).collect(Collectors.toCollection(ArrayList<Session>::new));
+        ArrayList<Session> roomSessionList = SessionController.getSessionList().stream().filter(i -> this.room == i.room).collect(Collectors.toCollection(ArrayList<Session>::new));
         GregorianCalendar startOfSession = this.getDate();
         int movieDuration = this.getMovie().getDuration();
         GregorianCalendar endOfSession = (GregorianCalendar) startOfSession.clone();
@@ -166,7 +153,7 @@ public class Session
     }
 
     public boolean isSessionAvailable(Movie movie) {
-        ArrayList<Session> roomSessionList = sessionList.stream().filter(i -> this.room == i.room).collect(Collectors.toCollection(ArrayList<Session>::new));
+        ArrayList<Session> roomSessionList = SessionController.getSessionList().stream().filter(i -> this.room == i.room).collect(Collectors.toCollection(ArrayList<Session>::new));
         GregorianCalendar startOfSession = this.getDate();
         int movieDuration = movie.getDuration();
         GregorianCalendar endOfSession = (GregorianCalendar) startOfSession.clone();
@@ -185,7 +172,7 @@ public class Session
     }
 
     public boolean isSessionAvailable(GregorianCalendar date) {
-        ArrayList<Session> roomSessionList = sessionList.stream().filter(i -> this.room == i.room).collect(Collectors.toCollection(ArrayList<Session>::new));
+        ArrayList<Session> roomSessionList = SessionController.getSessionList().stream().filter(i -> this.room == i.room).collect(Collectors.toCollection(ArrayList<Session>::new));
         GregorianCalendar startOfSession = date;
         int movieDuration = this.getMovie().getDuration();
         GregorianCalendar endOfSession = (GregorianCalendar) startOfSession.clone();
@@ -204,7 +191,7 @@ public class Session
     }
 
     public boolean isSessionAvailable(char room) {
-        ArrayList<Session> roomSessionList = sessionList.stream().filter(i -> room == i.room).collect(Collectors.toCollection(ArrayList<Session>::new));
+        ArrayList<Session> roomSessionList = SessionController.getSessionList().stream().filter(i -> room == i.room).collect(Collectors.toCollection(ArrayList<Session>::new));
         GregorianCalendar startOfSession = this.getDate();
         int movieDuration = this.getMovie().getDuration();
         GregorianCalendar endOfSession = (GregorianCalendar) startOfSession.clone();

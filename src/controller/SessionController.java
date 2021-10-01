@@ -22,6 +22,7 @@ public class SessionController{
 		}
 	}
 	
+	
 	public static void register(Session s) {
 		sessionList.add(s);
 	}
@@ -41,4 +42,5 @@ public class SessionController{
 	public static int getListSize() {
 		return sessionList.size();
 	}
+
 }
