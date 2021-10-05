@@ -23,8 +23,6 @@ public class Menu implements ActionListener{
 	private static JButton btSession = new JButton("SESSÕES");
 	private static JButton btSnack = new JButton("LANCHES");
 	
-	
-	
 	public Menu() {
 		MovieController.addRandomData();
 		SnackController.addRandomData();

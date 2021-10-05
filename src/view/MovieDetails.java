@@ -1,9 +1,7 @@
 package view;
 
 import javax.swing.*;
-
 import controller.MovieController;
-
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,21 +15,22 @@ public class MovieDetails implements ActionListener{
 	private static int labelInputXDis = 30 + labelSize[0];
 	private static Font f = new Font("Lucida Sans", Font.PLAIN, 15);
 
-	private JFrame screen = new JFrame("");
-	private JLabel nameLabel = new JLabel("Nome:");
-	private JTextField nameInput = new JTextField("");
-	private JLabel synopsisLabel = new JLabel("Sinopse:");
-	private JTextField synopsisInput = new JTextField("");
-	private JLabel genreLabel = new JLabel("Gênero:");
-	private JTextField genreInput = new JTextField("");
-	private JLabel durationLabel = new JLabel("Duração (min):");
-	private JTextField durationInput = new JTextField("");
+	private static JFrame screen = new JFrame("");
+	private static JLabel nameLabel = new JLabel("Nome:");
+	private static JTextField nameInput = new JTextField("");
+	private static JLabel synopsisLabel = new JLabel("Sinopse:");
+	private static JTextField synopsisInput = new JTextField("");
+	private static JLabel genreLabel = new JLabel("Gênero:");
+	private static JTextField genreInput = new JTextField("");
+	private static JLabel durationLabel = new JLabel("Duração (min):");
+	private static JTextField durationInput = new JTextField("");
 	
-	private static JButton btSave = new JButton("Salvar");
-	private static JButton btCancel = new JButton("Cancelar");
+	private JButton btSave;
+	private JButton btCancel;
 	
 	private Movie movie;
 	private boolean updating;
+	
 	
 	public void displayScreen() {
 		
@@ -84,28 +83,42 @@ public class MovieDetails implements ActionListener{
 		screen.setLocationRelativeTo(null);
 		screen.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		screen.setVisible(true);
-		
-		btSave.addActionListener(this);
-		btCancel.addActionListener(this);
+	
 	}
 	
 	public MovieDetails() {
 		updating = false;
+		
+		btSave = new JButton("Salvar");
+		btSave.addActionListener(this);
+		btCancel = new JButton("Cancelar");
+		btCancel.addActionListener(this);
+				
 		displayScreen();
 	}
+	
 	public MovieDetails(int id) {
 		updating = true;
 		movie = MovieController.getMovie(id);
+		
 		nameInput.setText(movie.getName());
 		synopsisInput.setText(movie.getSynopsis());
 		genreInput.setText(movie.getGenre());
 		durationInput.setText(Integer.toString(movie.getDuration()));
+		
+		btSave = new JButton("Salvar");
+		btSave.addActionListener(this);
+		btCancel = new JButton("Cancelar");
+		btCancel.addActionListener(this);
+
 		displayScreen();
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object src = e.getSource();
+		btSave.removeActionListener(this);
+		btCancel.removeActionListener(this);
 		
 		if (src == btSave) {
 			try {	
@@ -121,16 +134,16 @@ public class MovieDetails implements ActionListener{
 				}
 				
 //				registerSuccessMessage();
-				screen.dispose();
 				new MovieScreen();	
+				screen.dispose();
 			} catch (Exception ex){
 //				registerErrorMessage();
 			}
 		}
 		if (src == btCancel) {
 //			operationCanceledMessage();
-			screen.dispose();
 			new MovieScreen();	
+			screen.dispose();
 		}
 		
 	}

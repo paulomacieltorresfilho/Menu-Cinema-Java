@@ -1,9 +1,5 @@
 package model;
-import java.util.ArrayList;
-
-public class Movie implements Entity{
-
-    private static ArrayList<Movie> movieList = new ArrayList<Movie>();
+public class Movie{
     
     private String name;
     private String synopsis;
@@ -17,51 +13,6 @@ public class Movie implements Entity{
         this.setDuration(duration);
     }
 
-    @Override
-    public void register() {
-        if (!movieList.contains(this)) {
-            movieList.add(this);
-        } else {
-            System.out.println("Filme já cadastrado!");
-        }
-    }
-
-    @Override
-    public void update(int option, Object e) {
-        switch (option) {
-            case 0:
-                this.setName((String) e);
-                break;
-            case 1:
-                this.setSynopsis((String) e);
-                break;
-            case 2:
-                this.setGenre((String) e);
-                break;
-            case 3:
-                this.setDuration((int) e);
-                break;
-            default:
-                System.out.println("Opção inválida");
-        }
-    }
-
-    @Override
-    public void view() {
-        System.out.println(this);
-    }
-
-    public static void viewMovies() {
-        System.out.println("Filme | Duração");
-        for (Movie m : movieList) {
-            System.out.println(m.getName() + " | " + m.getDuration() + "min");
-        }
-    }
-
-    @Override
-    public void delete() {
-        movieList.remove(this);
-    }
     
     @Override
     public String toString() {
@@ -71,19 +22,6 @@ public class Movie implements Entity{
         text += "Gênero: " + this.genre + "\n";
         text += "Duração : " + this.duration + "min";
         return text;
-    }
-
-    public static Movie getMovie(int index) {
-        return movieList.get(index);
-    }
-
-    public static Movie getMovie(String name) {
-        for (Movie m : movieList) {
-            if (m.getName().equals(name)) {
-                return m;
-            }
-        }
-        return null;
     }
 
     // Gets & Sets

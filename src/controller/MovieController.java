@@ -8,7 +8,6 @@ public class MovieController{
 	public static ArrayList<Movie> movieList = new ArrayList<Movie>();
 	
 	public static void addRandomData() {
-		// Adicionar dados aleatorios
 		for (int i = 10; i > 0; i--) {
 			movieList.add(new Movie(
 					String.format("filme-%d", i),
@@ -20,7 +19,9 @@ public class MovieController{
 	}
 	
 	public static void register(Movie m) {
-		movieList.add(m);
+		if (!movieList.contains(m)) {
+			movieList.add(m);
+		}
 	}
 	
 	public static void remove(Movie m) {

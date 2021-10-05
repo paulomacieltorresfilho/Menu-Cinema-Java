@@ -23,9 +23,7 @@ public class MovieScreen implements ActionListener{
 	private static JButton btRemove = new JButton("Remover filme");
 	private static JButton btUpdate = new JButton("Atualizar filme");
 	
-
-	
-	MovieScreen() {
+	public MovieScreen() {
 		
 		tableModel.setRowCount(0);
 		for (int i = 0; i < MovieController.getListSize(); i++) {
@@ -72,14 +70,17 @@ public class MovieScreen implements ActionListener{
 		Object src = e.getSource();
 		
 		if (src == btAdd) {
+			btAdd.removeActionListener(this);
 			screen.dispose();
 			new MovieDetails();
 		}
 		if (src == btUpdate) {
+			btUpdate.removeActionListener(this);
 			screen.dispose();
 			new MovieIdScreen();
 		}
 		if (src == btRemove) {
+			btRemove.removeActionListener(this);
 			new MovieIdScreen();
 		}
 	}
@@ -90,7 +91,6 @@ public class MovieScreen implements ActionListener{
 		private static JComboBox<Integer> box = new JComboBox<Integer>();
 		private static JButton btOption = new JButton("OK");
 		private int optionId;
-		
 
 		public MovieIdScreen() {
 			for (int i = 0; i < MovieController.getListSize(); i++) {
@@ -123,14 +123,12 @@ public class MovieScreen implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			Object src = e.getSource();
-			
+			btOption.removeActionListener(this);
 			if (src == btOption) {
 				optionId = (int) box.getSelectedItem();
-				screen.setVisible(false);
+				screen.dispose();
 				new MovieDetails(optionId);
 			}
-			
 		}
-		
 	}
 }

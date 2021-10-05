@@ -75,6 +75,9 @@ public class SnackScreen implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object src = e.getSource();
+		btAdd.removeActionListener(this);
+		btUpdate.removeActionListener(this);
+		btRemove.removeActionListener(this);
 		
 		if (src == btAdd) {
 			screen.dispose();
@@ -128,6 +131,7 @@ public class SnackScreen implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			Object src = e.getSource();
+			btOption.removeActionListener(this);
 			
 			if (src == btOption) {
 				optionId = (int) box.getSelectedItem();

@@ -17,18 +17,18 @@ public class SnackDetails implements ActionListener{
 	private static int labelInputXDis = 30 + labelSize[0];
 	private static Font f = new Font("Lucida Sans", Font.PLAIN, 15);
 
-	private JFrame screen = new JFrame("");
-	private JLabel nameLabel = new JLabel("Nome:");
-	private JTextField nameInput = new JTextField("");
-	private JLabel priceLabel = new JLabel("Preço:");
-	private JTextField priceInput = new JTextField("");
-	private JLabel stockLabel = new JLabel("Qtd Estoque:");
-	private JTextField stockInput = new JTextField("");
+	private static JFrame screen = new JFrame("");
+	private static JLabel nameLabel = new JLabel("Nome:");
+	private static JTextField nameInput = new JTextField("");
+	private static JLabel priceLabel = new JLabel("Preço:");
+	private static JTextField priceInput = new JTextField("");
+	private static JLabel stockLabel = new JLabel("Qtd Estoque:");
+	private static JTextField stockInput = new JTextField("");
 	
-	private static JButton btSave = new JButton("Salvar");
-	private static JButton btCancel = new JButton("Cancelar");
+	private JButton btSave = new JButton("Salvar");
+	private JButton btCancel = new JButton("Cancelar");
 	
-	private Snack Snack;
+	private Snack snack;
 	private boolean updating;
 	
 	public void displayScreen() {
@@ -86,10 +86,10 @@ public class SnackDetails implements ActionListener{
 	}
 	public SnackDetails(int id) {
 		updating = true;
-		Snack = SnackController.getSnack(id);
-		nameInput.setText(Snack.getName());
-		priceInput.setText(Double.toString(Snack.getPrice()));
-		stockInput.setText(Double.toString(Snack.getStockQuantity()));
+		snack = SnackController.getSnack(id);
+		nameInput.setText(snack.getName());
+		priceInput.setText(Double.toString(snack.getPrice()));
+		stockInput.setText(Integer.toString(snack.getStockQuantity()));
 		displayScreen();
 	}
 
@@ -100,27 +100,30 @@ public class SnackDetails implements ActionListener{
 		if (src == btSave) {
 			try {	
 
-				Snack = new Snack(
+				snack = new Snack(
 						nameInput.getText(),
 						Double.parseDouble(priceInput.getText()),
 						Integer.parseInt(stockInput.getText())
 						);
 				
 				if (!updating) {
-					SnackController.register(Snack);
+					SnackController.register(snack);
 				}
 				
 //				registerSuccessMessage();
+				btSave.removeActionListener(this);
+				new SnackScreen();
 				screen.dispose();
-				new SnackScreen();	
 			} catch (Exception ex){
 //				registerErrorMessage();
+				System.out.println("erro irmao");
 			}
 		}
 		if (src == btCancel) {
 //			operationCanceledMessage();
-			screen.dispose();
+			btCancel.removeActionListener(this);
 			new SnackScreen();	
+			screen.dispose();
 		}
 		
 	}
