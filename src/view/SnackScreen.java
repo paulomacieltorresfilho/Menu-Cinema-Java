@@ -27,11 +27,12 @@ public class SnackScreen implements ActionListener {
 		
 		tableModel.setRowCount(0);
 		for (int i = 0; i < SnackController.getListSize(); i++) {
+			String[] snackInfo = SnackController.getSnackInfo(i);
 			Object snack [] = {
 					i, 
-					SnackController.getSnack(i).getName(),
-					Double.toString(SnackController.getSnack(i).getPrice()),
-					Integer.toString(SnackController.getSnack(i).getStockQuantity())
+					snackInfo[0],
+					snackInfo[1],
+					snackInfo[2]
 			};
 			tableModel.addRow(snack);
 		}

@@ -107,9 +107,7 @@ public class SessionDetails implements ActionListener{
 				session = new Session(
                             MovieController.getMovie(2),
                             new GregorianCalendar(2021, 10, 10 + 2, 10 + 10, 0),
-                            'a',
-                            false,
-                            5
+                            'a'
                             );
 				
 				if (!updating) {

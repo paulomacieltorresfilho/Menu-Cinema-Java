@@ -46,11 +46,14 @@ public class MovieController{
 	}
 	
 	public static void remove(Movie m) {
+		SessionController.removeAll(m);
 		movieList.remove(m);
 	}
 	
 	public static void remove(int id) {
-		movieList.remove(id);
+		Movie m = MovieController.getMovie(id);
+		SessionController.removeAll(m);
+		movieList.remove(m);
 	}
 	
 	public static ArrayList<Movie> getMovieList() {

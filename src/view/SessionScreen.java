@@ -14,7 +14,7 @@ public class SessionScreen implements ActionListener{
 	
 	private static JFrame screen = new JFrame("Lista de sessões");
 	
-	private static String columns [] = { "Sala", "Filme", "Horario", "Dia"};
+	private static String columns [] = { "Filme", "Sala", "Dia", "Horário"};
 	private static DefaultTableModel tableModel = new DefaultTableModel(columns, 0);
 	private static JTable table = new JTable(tableModel);
 	private static JScrollPane scrollPane = new JScrollPane(table);
@@ -29,11 +29,12 @@ public class SessionScreen implements ActionListener{
 		
 		tableModel.setRowCount(0);
 		for (int i = 0; i < SessionController.getListSize(); i++) {
+			String[] sessionInfo = SessionController.getSessionInfo(i);
 			Object session [] = {
-					SessionController.getSession(i).getRoom(),
-					SessionController.getSession(i).getMovie().getName(),
-					SessionController.getSession(i).getDate().getTime(),
-					SessionController.getSession(i).getDate().getWeekYear(),
+					sessionInfo[0], // Filme
+					sessionInfo[1], // Sala
+					sessionInfo[2], // Dia
+					sessionInfo[3], // Horário
 			};
 			tableModel.addRow(session);
 		}

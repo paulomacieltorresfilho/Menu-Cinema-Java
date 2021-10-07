@@ -3,6 +3,7 @@ package view;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.Font;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -27,17 +28,18 @@ public class MovieScreen implements ActionListener{
 		
 		tableModel.setRowCount(0);
 		for (int i = 0; i < MovieController.getListSize(); i++) {
+			String[] movieInfo = MovieController.getMovieInfo(i);
 			Object movie [] = {
 					i, 
-					MovieController.getMovie(i).getName(),
-					MovieController.getMovie(i).getGenre(),
-					Integer.toString(MovieController.getMovie(i).getDuration())
+					movieInfo[0],
+					movieInfo[2],
+					movieInfo[3]
 			};
 			tableModel.addRow(movie);
 		}
-		
-		table.setEnabled(false);
-		table.setBounds(30, 40, 200, 300);
+
+		table.setLocation(30, 40);
+		table.setPreferredSize(new Dimension(200, 300));
 		table.setFont(f);
 		table.getTableHeader().setFont(f);
 		
@@ -47,12 +49,12 @@ public class MovieScreen implements ActionListener{
 		btUpdate.setFont(f);
 		btRemove.setBounds(550, 340, 200, 40);
 		btRemove.setFont(f);
+
 		
 		screen.add(btAdd);
 		screen.add(btRemove);
 		screen.add(btUpdate);
 		screen.add(scrollPane);
-		
 		
 		screen.setSize(800, 440);
 		screen.setLocationRelativeTo(null);

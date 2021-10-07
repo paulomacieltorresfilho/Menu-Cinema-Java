@@ -14,7 +14,7 @@ public class Session
     private int purchasedTickets;
     private boolean registered;
 
-    public Session(Movie movie, GregorianCalendar date, char room, boolean room3d, double ticketPrice) {
+    public Session(Movie movie, GregorianCalendar date, char room) {
         super(room);
         this.movie = movie;
         this.date = date;

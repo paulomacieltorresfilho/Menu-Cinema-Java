@@ -159,7 +159,5 @@ public class MovieDetails implements ActionListener{
 			new MovieScreen();	
 			screen.dispose();
 		}
-		
 	}
-	
 }
