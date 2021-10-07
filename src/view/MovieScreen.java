@@ -6,7 +6,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import controller.*;
+import controller.MovieController;
 
 public class MovieScreen implements ActionListener{
 	
@@ -64,35 +64,40 @@ public class MovieScreen implements ActionListener{
 		btRemove.addActionListener(this);
 	}
 
-
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object src = e.getSource();
+		btAdd.removeActionListener(this);
+		btUpdate.removeActionListener(this);
+		btRemove.removeActionListener(this);
+		screen.dispose();
 		
 		if (src == btAdd) {
-			btAdd.removeActionListener(this);
-			screen.dispose();
 			new MovieDetails();
 		}
 		if (src == btUpdate) {
-			btUpdate.removeActionListener(this);
-			screen.dispose();
-			new MovieIdScreen();
+			new MovieIdScreen(false);
 		}
 		if (src == btRemove) {
-			btRemove.removeActionListener(this);
-			new MovieIdScreen();
+			new MovieIdScreen(true);
 		}
 	}
 	
 	public class MovieIdScreen implements ActionListener {
-		private static JFrame screen = new JFrame();
-		private static JLabel text = new JLabel("Escolha o id filme que deseja atualizar");
-		private static JComboBox<Integer> box = new JComboBox<Integer>();
-		private static JButton btOption = new JButton("OK");
+		private JFrame screen;
+		private JLabel text;
+		private JComboBox<Integer> box;
+		private JButton btOption;
 		private int optionId;
+		private boolean removing;
 
-		public MovieIdScreen() {
+		public MovieIdScreen(boolean removing) {
+			this.screen = new JFrame();
+			this.text = new JLabel("Selecione o id do filme");
+			this.box = new JComboBox<Integer>();
+			this.btOption = new JButton("OK");
+			this.removing = removing;
+			
 			for (int i = 0; i < MovieController.getListSize(); i++) {
 				box.addItem(i);
 			}
@@ -119,7 +124,6 @@ public class MovieScreen implements ActionListener{
 			btOption.addActionListener(this);
 		}
 
-
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			Object src = e.getSource();
@@ -127,7 +131,10 @@ public class MovieScreen implements ActionListener{
 			if (src == btOption) {
 				optionId = (int) box.getSelectedItem();
 				screen.dispose();
-				new MovieDetails(optionId);
+				if (removing) {
+					MovieController.remove(optionId);
+					new MovieScreen();
+				} else new MovieDetails(optionId);	
 			}
 		}
 	}

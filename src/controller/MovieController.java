@@ -1,7 +1,8 @@
 package controller;
 
 import java.util.ArrayList;
-import model.*;
+
+import model.Movie;
 
 public class MovieController{
 	
@@ -18,14 +19,38 @@ public class MovieController{
 		}
 	}
 	
+	public static Movie createMovie(String name, String synopsis, String genre, int duration) {
+		return new Movie (name, synopsis, genre, duration);
+	}
+
+	public static String[] getMovieInfo(int id) {
+		Movie m = MovieController.getMovie(id);
+		String[] mInfo = {
+			m.getName(),
+			m.getSynopsis(),
+			m.getGenre(),
+			Integer.toString(m.getDuration())
+		};
+		return mInfo;
+	}
+	
 	public static void register(Movie m) {
 		if (!movieList.contains(m)) {
 			movieList.add(m);
 		}
 	}
+
+	public static void update(int id, Movie m) {
+		movieList.remove(id);
+		movieList.add(id, m);
+	}
 	
 	public static void remove(Movie m) {
 		movieList.remove(m);
+	}
+	
+	public static void remove(int id) {
+		movieList.remove(id);
 	}
 	
 	public static ArrayList<Movie> getMovieList() {

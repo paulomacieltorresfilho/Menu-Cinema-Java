@@ -7,7 +7,6 @@ import controller.SnackController;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import model.Snack;
 
 public class SnackDetails implements ActionListener{
 	
@@ -17,19 +16,35 @@ public class SnackDetails implements ActionListener{
 	private static int labelInputXDis = 30 + labelSize[0];
 	private static Font f = new Font("Lucida Sans", Font.PLAIN, 15);
 
-	private static JFrame screen = new JFrame("");
-	private static JLabel nameLabel = new JLabel("Nome:");
-	private static JTextField nameInput = new JTextField("");
-	private static JLabel priceLabel = new JLabel("Preço:");
-	private static JTextField priceInput = new JTextField("");
-	private static JLabel stockLabel = new JLabel("Qtd Estoque:");
-	private static JTextField stockInput = new JTextField("");
+	private JFrame screen;
+	private JLabel nameLabel;
+	private JTextField nameInput;
+	private JLabel priceLabel;
+	private JTextField priceInput;
+	private JLabel stockLabel;
+	private JTextField stockInput;
 	
-	private JButton btSave = new JButton("Salvar");
-	private JButton btCancel = new JButton("Cancelar");
+	private JButton btSave;
+	private JButton btCancel;
 	
-	private Snack snack;
+	private String[] snackInfo;
+	private int snackId;
 	private boolean updating;
+
+	public void initFrame() {
+		this.screen = new JFrame("");
+		this.nameLabel = new JLabel("Nome:");
+		this.nameInput = new JTextField("");
+		this.priceLabel = new JLabel("Preço:");
+		this.priceInput = new JTextField("");
+		this.stockLabel = new JLabel("Qtd Estoque:");
+		this.stockInput = new JTextField("");
+		
+		this.btSave = new JButton("Salvar");
+		this.btCancel = new JButton("Cancelar");
+		this.btSave.addActionListener(this);
+		this.btCancel.addActionListener(this);
+	}
 	
 	public void displayScreen() {
 		
@@ -75,21 +90,22 @@ public class SnackDetails implements ActionListener{
 		screen.setLocationRelativeTo(null);
 		screen.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		screen.setVisible(true);
-		
-		btSave.addActionListener(this);
-		btCancel.addActionListener(this);
 	}
 	
 	public SnackDetails() {
+		initFrame();
 		updating = false;
 		displayScreen();
 	}
 	public SnackDetails(int id) {
+		initFrame();
 		updating = true;
-		snack = SnackController.getSnack(id);
-		nameInput.setText(snack.getName());
-		priceInput.setText(Double.toString(snack.getPrice()));
-		stockInput.setText(Integer.toString(snack.getStockQuantity()));
+		this.snackInfo = SnackController.getSnackInfo(id);
+		this.snackId = id;
+
+		nameInput.setText(snackInfo[0]);
+		priceInput.setText(snackInfo[1]);
+		stockInput.setText(snackInfo[2]);
 		displayScreen();
 	}
 
@@ -99,29 +115,34 @@ public class SnackDetails implements ActionListener{
 		
 		if (src == btSave) {
 			try {	
-
-				snack = new Snack(
-						nameInput.getText(),
-						Double.parseDouble(priceInput.getText()),
-						Integer.parseInt(stockInput.getText())
-						);
-				
-				if (!updating) {
-					SnackController.register(snack);
-				}
-				
-//				registerSuccessMessage();
 				btSave.removeActionListener(this);
-				new SnackScreen();
-				screen.dispose();
+				if (!updating) {
+					SnackController.register(
+						SnackController.createSnack(
+							nameInput.getText(), 
+							Double.parseDouble(priceInput.getText()), 
+							Integer.parseInt(stockInput.getText()))
+					);
+				} else {
+					SnackController.update(
+						this.snackId,
+						SnackController.createSnack(
+							nameInput.getText(), 
+							Double.parseDouble(priceInput.getText()), 
+							Integer.parseInt(stockInput.getText()))
+					);
+				}
+//				registerSuccessMessage();
 			} catch (Exception ex){
 //				registerErrorMessage();
-				System.out.println("erro irmao");
+			} finally {
+				screen.dispose();
+				new SnackScreen();
 			}
 		}
 		if (src == btCancel) {
-//			operationCanceledMessage();
 			btCancel.removeActionListener(this);
+//			operationCanceledMessage();
 			new SnackScreen();	
 			screen.dispose();
 		}

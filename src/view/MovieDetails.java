@@ -5,7 +5,6 @@ import controller.MovieController;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import model.Movie;
 
 public class MovieDetails implements ActionListener{
 	
@@ -15,22 +14,39 @@ public class MovieDetails implements ActionListener{
 	private static int labelInputXDis = 30 + labelSize[0];
 	private static Font f = new Font("Lucida Sans", Font.PLAIN, 15);
 
-	private static JFrame screen = new JFrame("");
-	private static JLabel nameLabel = new JLabel("Nome:");
-	private static JTextField nameInput = new JTextField("");
-	private static JLabel synopsisLabel = new JLabel("Sinopse:");
-	private static JTextField synopsisInput = new JTextField("");
-	private static JLabel genreLabel = new JLabel("Gênero:");
-	private static JTextField genreInput = new JTextField("");
-	private static JLabel durationLabel = new JLabel("Duração (min):");
-	private static JTextField durationInput = new JTextField("");
+	private JFrame screen;
+	private JLabel nameLabel;
+	private JTextField nameInput;
+	private JLabel synopsisLabel;
+	private JTextField synopsisInput;
+	private JLabel genreLabel;
+	private JTextField genreInput;
+	private JLabel durationLabel;
+	private JTextField durationInput;
 	
 	private JButton btSave;
 	private JButton btCancel;
 	
-	private Movie movie;
+	private String[] movieInfo;
+	private int movieId;
 	private boolean updating;
 	
+	public void initFrame() {
+		this.screen = new JFrame("");
+		this.nameLabel = new JLabel("Nome:");
+		this.nameInput = new JTextField("");
+		this.synopsisLabel = new JLabel("Sinopse:");
+		this.synopsisInput = new JTextField("");
+		this.genreLabel = new JLabel("Gênero:");
+		this.genreInput = new JTextField("");
+		this.durationLabel = new JLabel("Duração (min):");
+		this.durationInput = new JTextField("");
+		
+		this.btSave = new JButton("Salvar");
+		this.btCancel = new JButton("Cancelar");
+		this.btSave.addActionListener(this);
+		this.btCancel.addActionListener(this);
+	}
 	
 	public void displayScreen() {
 		
@@ -83,64 +99,62 @@ public class MovieDetails implements ActionListener{
 		screen.setLocationRelativeTo(null);
 		screen.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		screen.setVisible(true);
-	
 	}
 	
 	public MovieDetails() {
+		initFrame();
 		updating = false;
-		
-		btSave = new JButton("Salvar");
-		btSave.addActionListener(this);
-		btCancel = new JButton("Cancelar");
-		btCancel.addActionListener(this);
-				
 		displayScreen();
 	}
 	
 	public MovieDetails(int id) {
+		initFrame();
 		updating = true;
-		movie = MovieController.getMovie(id);
+		this.movieInfo = MovieController.getMovieInfo(id);
+		this.movieId = id;
 		
-		nameInput.setText(movie.getName());
-		synopsisInput.setText(movie.getSynopsis());
-		genreInput.setText(movie.getGenre());
-		durationInput.setText(Integer.toString(movie.getDuration()));
-		
-		btSave = new JButton("Salvar");
-		btSave.addActionListener(this);
-		btCancel = new JButton("Cancelar");
-		btCancel.addActionListener(this);
-
+		nameInput.setText(movieInfo[0]);
+		synopsisInput.setText(movieInfo[1]);
+		genreInput.setText(movieInfo[2]);
+		durationInput.setText(movieInfo[3]);
 		displayScreen();
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object src = e.getSource();
-		btSave.removeActionListener(this);
-		btCancel.removeActionListener(this);
 		
 		if (src == btSave) {
 			try {	
-
-				movie = new Movie(
-						nameInput.getText(),
-						synopsisInput.getText(),
-						genreInput.getText(),
-						Integer.parseInt(durationInput.getText()));
-				
+				btSave.removeActionListener(this);
 				if (!updating) {
-					MovieController.register(movie);
+					MovieController.register(
+						MovieController.createMovie(
+								nameInput.getText(),
+								synopsisInput.getText(),
+								genreInput.getText(),
+								Integer.parseInt(durationInput.getText()))
+					);
+				} else {
+					MovieController.update(
+						this.movieId, 
+						MovieController.createMovie(
+							nameInput.getText(),
+							synopsisInput.getText(),
+							genreInput.getText(),
+							Integer.parseInt(durationInput.getText()))
+					);
 				}
-				
 //				registerSuccessMessage();
-				new MovieScreen();	
-				screen.dispose();
 			} catch (Exception ex){
 //				registerErrorMessage();
+			} finally {
+				screen.dispose();
+				new MovieScreen();
 			}
 		}
 		if (src == btCancel) {
+			btCancel.removeActionListener(this);
 //			operationCanceledMessage();
 			new MovieScreen();	
 			screen.dispose();

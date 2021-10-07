@@ -17,13 +17,36 @@ public class SnackController{
 					));	
 		}
 	}
+
+	public static Snack createSnack(String name, double price, int stockQuantity) {
+		return new Snack(name, price, stockQuantity);
+	}
+
+	public static String[] getSnackInfo(int id) {
+		Snack s = SnackController.getSnack(id);
+		String[] sInfo = {
+			s.getName(),
+			Double.toString(s.getPrice()),
+			Integer.toString(s.getStockQuantity())
+		};
+		return sInfo;
+	}
 	
 	public static void register(Snack s) {
 		snackList.add(s);
 	}
+
+	public static void update(int id, Snack s) {
+		snackList.remove(id);
+		snackList.add(id, s);
+	}
 	
 	public static void remove(Snack s) {
 		snackList.remove(s);
+	}
+	
+	public static void remove(int id) {
+		snackList.remove(id);
 	}
 	
 	public static ArrayList<Snack> getSnackList() {

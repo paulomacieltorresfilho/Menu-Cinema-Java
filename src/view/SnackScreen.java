@@ -1,17 +1,12 @@
 package view;
-import controller.SnackController;
 
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
+import controller.SnackController;
 
 public class SnackScreen implements ActionListener {
 
@@ -27,8 +22,6 @@ public class SnackScreen implements ActionListener {
 	private static JButton btAdd = new JButton("Adicionar lanche");
 	private static JButton btRemove = new JButton("Remover lanche");
 	private static JButton btUpdate = new JButton("Atualizar lanche");
-	
-
 	
 	SnackScreen() {
 		
@@ -71,36 +64,39 @@ public class SnackScreen implements ActionListener {
 		btRemove.addActionListener(this);
 	}
 
-
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object src = e.getSource();
 		btAdd.removeActionListener(this);
 		btUpdate.removeActionListener(this);
 		btRemove.removeActionListener(this);
-		
+		screen.dispose();
+
 		if (src == btAdd) {
-			screen.dispose();
 			new SnackDetails();
 		}
 		if (src == btUpdate) {
-			screen.dispose();
-			new SnackIdScreen();
+			new SnackIdScreen(false);
 		}
 		if (src == btRemove) {
-			new SnackIdScreen();
+			new SnackIdScreen(true);
 		}
 	}
 	
 	public class SnackIdScreen implements ActionListener {
-		private static JFrame screen = new JFrame();
-		private static JLabel text = new JLabel("Escolha o id do lanche que deseja atualizar");
-		private static JComboBox<Integer> box = new JComboBox<Integer>();
-		private static JButton btOption = new JButton("OK");
+		private JFrame screen;
+		private JLabel text;
+		private JComboBox<Integer> box;
+		private JButton btOption;
 		private int optionId;
+		private boolean removing;
 		
-
-		public SnackIdScreen() {
+		public SnackIdScreen(boolean removing) {
+			this.screen = new JFrame();
+			this.text = new JLabel("Selecione o id do lanche");
+			this.box = new JComboBox<Integer>();
+			this.btOption = new JButton("OK");
+			this.removing = removing;
 			for (int i = 0; i < SnackController.getListSize(); i++) {
 				box.addItem(i);
 			}
@@ -127,19 +123,18 @@ public class SnackScreen implements ActionListener {
 			btOption.addActionListener(this);
 		}
 
-
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			Object src = e.getSource();
 			btOption.removeActionListener(this);
-			
 			if (src == btOption) {
 				optionId = (int) box.getSelectedItem();
-				screen.setVisible(false);
-				new SnackDetails(optionId);
+				screen.dispose();
+				if (removing) {
+					SnackController.remove(optionId);
+					new SnackScreen();
+				} else new SnackDetails(optionId);
 			}
-			
 		}
-		
 	}
 }
