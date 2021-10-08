@@ -19,12 +19,12 @@ public class SessionController{
 			sessionList.add(new Session(
 					MovieController.getMovie(i-1),
                     new GregorianCalendar(2021, i, i + 2, i + 10, 0),
-                    'a'
+                    "a"
 					));
 		}
-	}
+	} 
 	
-	public static Session createSession(String movieName, char room, String date, String time) {
+	public static Session createSession(String movieName, String room, String date, String time) {
 		
 		Movie m = MovieController.getMovie(movieName);
 		

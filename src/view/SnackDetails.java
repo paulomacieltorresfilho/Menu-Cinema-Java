@@ -35,7 +35,7 @@ public class SnackDetails implements ActionListener{
 		this.screen = new JFrame("");
 		this.nameLabel = new JLabel("Nome:");
 		this.nameInput = new JTextField("");
-		this.priceLabel = new JLabel("Preço:");
+		this.priceLabel = new JLabel("Preço:"); 
 		this.priceInput = new JTextField("");
 		this.stockLabel = new JLabel("Qtd Estoque:");
 		this.stockInput = new JTextField("");
@@ -132,9 +132,9 @@ public class SnackDetails implements ActionListener{
 							Integer.parseInt(stockInput.getText()))
 					);
 				}
-//				registerSuccessMessage();
+				Messages.registerSuccessMessage();
 			} catch (Exception ex){
-//				registerErrorMessage();
+				Messages.registerErrorMessage();
 			} finally {
 				screen.dispose();
 				new SnackScreen();
@@ -142,7 +142,7 @@ public class SnackDetails implements ActionListener{
 		}
 		if (src == btCancel) {
 			btCancel.removeActionListener(this);
-//			operationCanceledMessage();
+			Messages.operationCanceledMessage();
 			new SnackScreen();	
 			screen.dispose();
 		}

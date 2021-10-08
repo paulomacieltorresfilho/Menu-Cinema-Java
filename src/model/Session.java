@@ -9,8 +9,9 @@ public class Session extends CinemaRoom {
     private ArrayList<Ticket> ticketList;
     private int purchasedTickets;
 
-    public Session(Movie movie, GregorianCalendar date, char room) {
-        super(room);
+    public Session(Movie movie, GregorianCalendar date, String room) {
+    	
+        super(room.charAt(0)); 
         this.movie = movie;
         this.date = date;
         this.ticketList = new ArrayList<Ticket>(roomSize);
@@ -20,7 +21,7 @@ public class Session extends CinemaRoom {
     
     public void viewSeats() {
         for (Seat s : seatList) {
-            System.out.println(s.getPosition());
+            System.out.println(s.getPosition()); 
         }
     }
 

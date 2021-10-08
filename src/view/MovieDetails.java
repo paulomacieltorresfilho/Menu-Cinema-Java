@@ -11,7 +11,7 @@ public class MovieDetails implements ActionListener{
 	private static int inputSize[] = {250, 25};
 	private static int labelSize[] = {150, 25};
 	private static int buttonsSize[] = {250, 65};
-	private static int labelInputXDis = 30 + labelSize[0];
+	private static int labelInputXDis = 30 + labelSize[0]; 
 	private static Font f = new Font("Lucida Sans", Font.PLAIN, 15);
 
 	private JFrame screen;
@@ -145,9 +145,9 @@ public class MovieDetails implements ActionListener{
 							Integer.parseInt(durationInput.getText()))
 					);
 				}
-//				registerSuccessMessage();
+ 				Messages.registerSuccessMessage();
 			} catch (Exception ex){
-//				registerErrorMessage();
+				Messages.registerErrorMessage();
 			} finally {
 				screen.dispose();
 				new MovieScreen();
@@ -155,7 +155,7 @@ public class MovieDetails implements ActionListener{
 		}
 		if (src == btCancel) {
 			btCancel.removeActionListener(this);
-//			operationCanceledMessage();
+			Messages.operationCanceledMessage();
 			new MovieScreen();	
 			screen.dispose();
 		}

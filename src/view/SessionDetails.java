@@ -22,7 +22,7 @@ public class SessionDetails implements ActionListener{
 	private JLabel roomLabel;
 	private JComboBox<String> roomInput;
 	private JLabel dateLabel;
-	private JTextField dateInput;
+	private JTextField dateInput; 
 	private JLabel timeLabel;
 	private JTextField timeInput;
 	
@@ -39,9 +39,9 @@ public class SessionDetails implements ActionListener{
 		this.nameInput = new JComboBox<String>(MovieController.getMovieNameList());
 		this.roomLabel = new JLabel("Sala:");
 		this.roomInput = new JComboBox<String>(SessionController.getRooms());
-		this.dateLabel = new JLabel("Dia:");
+		this.dateLabel = new JLabel("Dia(02/04/2021):");
 		this.dateInput = new JTextField("");
-		this.timeLabel = new JLabel("Hora:");
+		this.timeLabel = new JLabel("Hora(15:00):");
 		this.timeInput = new JTextField("");
 		
 		this.btSave = new JButton("Salvar");
@@ -133,7 +133,7 @@ public class SessionDetails implements ActionListener{
 					SessionController.register(
 						SessionController.createSession(
 								(String)nameInput.getSelectedItem(),
-								(char)roomInput.getSelectedItem(),
+								(String)roomInput.getSelectedItem(),
 								(String)dateInput.getText(),
 								(String)timeInput.getText())
 					);
@@ -142,14 +142,15 @@ public class SessionDetails implements ActionListener{
 						this.sessionId, 
 						SessionController.createSession(
 							(String)nameInput.getSelectedItem(),
-							(char)roomInput.getSelectedItem(),
+							(String)roomInput.getSelectedItem(),
 							(String)dateInput.getText(),
 							(String)timeInput.getText())
 					);
 				}
-//				registerSuccessMessage();
+				Messages.registerSuccessMessage();
 			} catch (Exception ex){
-//				registerErrorMessage();
+				System.out.print(ex);
+				Messages.registerErrorMessage();
 			} finally {
 				screen.dispose();
 				new SessionScreen();
@@ -157,9 +158,9 @@ public class SessionDetails implements ActionListener{
 		}
 		if (src == btCancel) {
 			btCancel.removeActionListener(this);
-//			operationCanceledMessage();
+			Messages.operationCanceledMessage();
 			new SessionScreen();	
 			screen.dispose();
 		}
-	}
+	} 
 }
