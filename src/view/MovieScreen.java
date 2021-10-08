@@ -38,7 +38,8 @@ public class MovieScreen implements ActionListener{
 			tableModel.addRow(movie);
 		}
 
-		table.setLocation(30, 40);
+		table.setEnabled(false);
+		// table.setLocation(30, 40);
 		table.setPreferredSize(new Dimension(200, 300));
 		table.setFont(f);
 		table.getTableHeader().setFont(f);

@@ -43,13 +43,13 @@ public class SessionController{
 			s.getMovie().getName(),
 			Character.toString(s.getRoom()).toUpperCase(),
 			String.format(
-				"%2d/%2d/%d",
+				"%02d/%02d/%d",
 				gc.get(GregorianCalendar.DATE),
 				gc.get(GregorianCalendar.MONTH),
 				gc.get(GregorianCalendar.YEAR)
 				),
 			String.format(
-				"%2d:%2d",
+				"%02d:%02d",
 				gc.get(GregorianCalendar.HOUR_OF_DAY),
 				gc.get(GregorianCalendar.MINUTE)
 			)
@@ -57,8 +57,9 @@ public class SessionController{
 		return sInfo;
 	}
 	
-	public static void register(Session s) {
-		sessionList.add(s);
+	public static void register(Session s) throws Exception {
+		if (isSessionAvailable(s)) sessionList.add(s);
+        else throw new Exception();
 	}
 	
 	public static void remove(Session s) {
@@ -87,7 +88,7 @@ public class SessionController{
 		return sessionList.size();
 	}
 
-	public boolean isSessionAvailable(Session s) {
+	public static boolean isSessionAvailable(Session s) {
         ArrayList<Session> roomSessionList = SessionController.getSessionList().stream().filter(i -> s.getRoom() == i.getRoom()).collect(Collectors.toCollection(ArrayList<Session>::new));
         GregorianCalendar startOfSession = s.getDate();
         int movieDuration = s.getMovie().getDuration();
@@ -106,7 +107,7 @@ public class SessionController{
         return true;
     }
 
-    public boolean isSessionAvailable(Session s, Movie movie) {
+    public static boolean isSessionAvailable(Session s, Movie movie) {
         ArrayList<Session> roomSessionList = SessionController.getSessionList().stream().filter(i -> s.getRoom() == i.getRoom()).collect(Collectors.toCollection(ArrayList<Session>::new));
         GregorianCalendar startOfSession = s.getDate();
         int movieDuration = movie.getDuration();
@@ -125,7 +126,7 @@ public class SessionController{
         return true;
     }
 
-    public boolean isSessionAvailable(Session s, GregorianCalendar date) {
+    public static boolean isSessionAvailable(Session s, GregorianCalendar date) {
         ArrayList<Session> roomSessionList = SessionController.getSessionList().stream().filter(i -> s.getRoom() == i.getRoom()).collect(Collectors.toCollection(ArrayList<Session>::new));
         GregorianCalendar startOfSession = date;
         int movieDuration = s.getMovie().getDuration();
@@ -144,7 +145,7 @@ public class SessionController{
         return true;
     }
 
-    public boolean isSessionAvailable(Session s, char room) {
+    public static boolean isSessionAvailable(Session s, char room) {
         ArrayList<Session> roomSessionList = SessionController.getSessionList().stream().filter(i -> room == i.getRoom()).collect(Collectors.toCollection(ArrayList<Session>::new));
         GregorianCalendar startOfSession = s.getDate();
         int movieDuration = s.getMovie().getDuration();

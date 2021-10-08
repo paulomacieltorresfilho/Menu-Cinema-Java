@@ -14,11 +14,13 @@ public class Snack{
         this.checkAvailability();
     }
 
-    public void sellSnack(int quantity) {
+    public void sellSnack(int quantity) throws Exception {
         int newQuantity = this.getStockQuantity() - quantity;
         if (newQuantity >= 0) {
             this.setStockQuantity(newQuantity);
             this.checkAvailability();
+        } else {
+            throw new Exception();
         }
     }
     
