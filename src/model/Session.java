@@ -1,6 +1,5 @@
 package model;
 
-import controller.SessionController;
 import java.util.*;
 
 public class Session extends CinemaRoom {
@@ -86,7 +85,5 @@ public class Session extends CinemaRoom {
         return date;
     }
     
-    public void setDate(GregorianCalendar date) {
-        if (SessionController.isSessionAvailable(this, date)) this.date = date;
-    }
+
 }

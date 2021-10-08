@@ -6,7 +6,7 @@ import model.Snack;
 
 public class SnackController{
 
-	public static ArrayList<Snack> snackList = new ArrayList<Snack>();
+	private static ArrayList<Snack> snackList = new ArrayList<Snack>();
 	
 	public static void addRandomData() {
 		for (int i = 0; i < 10; i++) {
@@ -22,15 +22,6 @@ public class SnackController{
 		return new Snack(name, price, stockQuantity);
 	}
 
-	public static String[] getSnackInfo(int id) {
-		Snack s = SnackController.getSnack(id);
-		String[] sInfo = {
-			s.getName(),
-			Double.toString(s.getPrice()),
-			Integer.toString(s.getStockQuantity())
-		};
-		return sInfo;
-	}
 	
 	public static void register(Snack s) {
 		snackList.add(s);
@@ -51,6 +42,34 @@ public class SnackController{
 	
 	public static ArrayList<Snack> getSnackList() {
 		return snackList;
+	}
+	
+	public static Object[][] getSnackObjList() {
+		Object[][] snackObjList = new Object[SnackController.getListSize()][];
+		String[] snackInfo;
+		
+		for (int i = 0; i < SnackController.getListSize(); i++) {
+			snackInfo = SnackController.getSnackInfo(i);
+			Object[] aux = {
+				i, 
+				snackInfo[0],
+				snackInfo[1],
+				snackInfo[2]
+			};
+			snackObjList[i] = aux;
+		}
+		
+		return snackObjList;
+	}
+	
+	public static String[] getSnackInfo(int id) {
+		Snack s = SnackController.getSnack(id);
+		String[] sInfo = {
+				s.getName(),
+				Double.toString(s.getPrice()),
+				Integer.toString(s.getStockQuantity())
+		};
+		return sInfo;
 	}
 	
 	public static Snack getSnack(int index) {

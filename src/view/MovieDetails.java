@@ -20,7 +20,7 @@ public class MovieDetails implements ActionListener{
 	private JLabel synopsisLabel;
 	private JTextField synopsisInput;
 	private JLabel genreLabel;
-	private JTextField genreInput;
+	private JComboBox<String> genreInput;
 	private JLabel durationLabel;
 	private JTextField durationInput;
 	
@@ -38,7 +38,7 @@ public class MovieDetails implements ActionListener{
 		this.synopsisLabel = new JLabel("Sinopse:");
 		this.synopsisInput = new JTextField("");
 		this.genreLabel = new JLabel("Gênero:");
-		this.genreInput = new JTextField("");
+		this.genreInput = new JComboBox<String>(MovieController.getGenreList());
 		this.durationLabel = new JLabel("Duração (min):");
 		this.durationInput = new JTextField("");
 		
@@ -115,7 +115,7 @@ public class MovieDetails implements ActionListener{
 		
 		nameInput.setText(movieInfo[0]);
 		synopsisInput.setText(movieInfo[1]);
-		genreInput.setText(movieInfo[2]);
+		genreInput.setSelectedItem(movieInfo[2]);
 		durationInput.setText(movieInfo[3]);
 		displayScreen();
 	}
@@ -132,7 +132,7 @@ public class MovieDetails implements ActionListener{
 						MovieController.createMovie(
 								nameInput.getText(),
 								synopsisInput.getText(),
-								genreInput.getText(),
+								(String)genreInput.getSelectedItem(),
 								Integer.parseInt(durationInput.getText()))
 					);
 				} else {
@@ -141,7 +141,7 @@ public class MovieDetails implements ActionListener{
 						MovieController.createMovie(
 							nameInput.getText(),
 							synopsisInput.getText(),
-							genreInput.getText(),
+							(String)genreInput.getSelectedItem(),
 							Integer.parseInt(durationInput.getText()))
 					);
 				}

@@ -12,57 +12,67 @@ public class SnackScreen implements ActionListener {
 
 	private static Font f = new Font("Lucida Sans", Font.PLAIN, 15);
 	
-	private static JFrame screen = new JFrame("Lista de lanches");
+	private JFrame tableScreen = new JFrame("Lista de lanches");
+	private JFrame controlScreen = new JFrame("Controlador");
 	
-	private static String columns [] = { "Id", "Nome", "Preço", "Estoque"};
-	private static DefaultTableModel tableModel = new DefaultTableModel(columns, 0);
-	private static JTable table = new JTable(tableModel);
-	private static JScrollPane scrollPane = new JScrollPane(table);
+	private DefaultTableModel tableModel;
+	private JTable table;
+	private JScrollPane scrollPane;
 	
-	private static JButton btAdd = new JButton("Adicionar lanche");
-	private static JButton btRemove = new JButton("Remover lanche");
-	private static JButton btUpdate = new JButton("Atualizar lanche");
+	private JButton btAdd;
+	private JButton btRemove;
+	private JButton btUpdate;
 	
-	SnackScreen() {
+	public void initFrame() {
+		btAdd.setBounds(50, 30, 200, 40);
+		btAdd.setFont(f);
 		
-		tableModel.setRowCount(0);
-		for (int i = 0; i < SnackController.getListSize(); i++) {
-			String[] snackInfo = SnackController.getSnackInfo(i);
-			Object snack [] = {
-					i, 
-					snackInfo[0],
-					snackInfo[1],
-					snackInfo[2]
-			};
-			tableModel.addRow(snack);
-		}
+		btUpdate.setBounds(300, 30, 200, 40);
+		btUpdate.setFont(f);
+		btRemove.setBounds(550, 30, 200, 40);
+		btRemove.setFont(f);
+
+		
+		controlScreen.add(btAdd);
+		controlScreen.add(btRemove);
+		controlScreen.add(btUpdate);
+		
+		controlScreen.setLayout(null);
+		controlScreen.setSize(800, 150);
+		controlScreen.setVisible(true);
+		controlScreen.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 		table.setEnabled(false);
-		table.setBounds(30, 40, 200, 300);
 		table.setFont(f);
 		table.getTableHeader().setFont(f);
 		
-		btAdd.setBounds(50, 340, 200, 40);
-		btAdd.setFont(f);
-		btUpdate.setBounds(300, 340, 200, 40);
-		btUpdate.setFont(f);
-		btRemove.setBounds(550, 340, 200, 40);
-		btRemove.setFont(f);
-		
-		screen.add(btAdd);
-		screen.add(btRemove);
-		screen.add(btUpdate);
-		screen.add(scrollPane);
-		
-		
-		screen.setSize(800, 440);
-		screen.setLocationRelativeTo(null);
-		screen.setVisible(true);
-		screen.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		tableScreen.add(scrollPane); 
+		tableScreen.setSize(800, 300);
+		tableScreen.setLocationRelativeTo(null);
+		tableScreen.setVisible(true);
+		tableScreen.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		tableScreen.getLocation();
+		controlScreen.setLocation((int)tableScreen.getLocation().getX(), (int)tableScreen.getLocation().getY() - 150);
 		
 		btAdd.addActionListener(this);
 		btUpdate.addActionListener(this);
 		btRemove.addActionListener(this);
+		
+	}
+	
+	public SnackScreen() {
+		
+		String columns [] = { "Id", "Nome", "Preço", "Estoque"};
+		
+		tableModel = new DefaultTableModel(SnackController.getSnackObjList(), columns);
+		table = new JTable(tableModel);
+		scrollPane = new JScrollPane(table);
+		btAdd = new JButton("Adicionar lanche");
+		btRemove = new JButton("Remover lanche");
+		btUpdate = new JButton("Atualizar lanche");
+		
+		initFrame();
+		
 	}
 
 	@Override
@@ -71,7 +81,8 @@ public class SnackScreen implements ActionListener {
 		btAdd.removeActionListener(this);
 		btUpdate.removeActionListener(this);
 		btRemove.removeActionListener(this);
-		screen.dispose();
+		controlScreen.dispose();
+		tableScreen.dispose();
 
 		if (src == btAdd) {
 			new SnackDetails();
@@ -105,7 +116,7 @@ public class SnackScreen implements ActionListener {
 			box.setBounds(50, 30, 350, 40);
 			box.setFont(f);
 			
-			text.setBounds(50, 80, 350, 40);
+			text.setBounds(50, 70, 350, 40);
 			text.setFont(f);
 			
 			btOption.setBounds(150, 110, 150, 30);

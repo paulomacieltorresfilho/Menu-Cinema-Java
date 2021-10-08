@@ -3,7 +3,6 @@ package view;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.Font;
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -13,58 +12,103 @@ public class MovieScreen implements ActionListener{
 	
 	private static Font f = new Font("Lucida Sans", Font.PLAIN, 15);
 	
-	private static JFrame screen = new JFrame("Lista de filmes");
+	private JFrame tableScreen = new JFrame("Lista de filmes");
+	private JFrame controlScreen = new JFrame("Controlador");
 	
-	private static String columns [] = { "Id", "Nome", "Gênero", "Duração (min)"};
-	private static DefaultTableModel tableModel = new DefaultTableModel(columns, 0);
-	private static JTable table = new JTable(tableModel);
-	private static JScrollPane scrollPane = new JScrollPane(table);
+	private DefaultTableModel tableModel;
+	private JTable table;
+	private JScrollPane scrollPane;
 	
-	private static JButton btAdd = new JButton("Adicionar filme");
-	private static JButton btRemove = new JButton("Remover filme");
-	private static JButton btUpdate = new JButton("Atualizar filme");
+	private JPanel filterPanel;
+	private JComboBox<String> filterBox;
+	private JButton btFilter;
 	
-	public MovieScreen() {
+	private JButton btAdd;
+	private JButton btRemove;
+	private JButton btUpdate;
+	
+	public void initFrame() {
+		btAdd.setBounds(50, 20, 200, 40);
+		btAdd.setFont(f);
+		btUpdate.setBounds(300, 20, 200, 40);
+		btUpdate.setFont(f);
+		btRemove.setBounds(550, 20, 200, 40);
+		btRemove.setFont(f);
 		
-		tableModel.setRowCount(0);
-		for (int i = 0; i < MovieController.getListSize(); i++) {
-			String[] movieInfo = MovieController.getMovieInfo(i);
-			Object movie [] = {
-					i, 
-					movieInfo[0],
-					movieInfo[2],
-					movieInfo[3]
-			};
-			tableModel.addRow(movie);
-		}
-
+		filterBox.setBounds(75, 0, 250, 30);
+		filterBox.setFont(f);
+		btFilter.setBounds(135, 30, 125, 30);
+		btFilter.setFont(f);
+		
+		filterPanel.add(filterBox);
+		filterPanel.add(btFilter);
+		
+		filterPanel.setLayout(null);
+		filterPanel.setBounds(200, 80, 400, 60);
+		
+		controlScreen.add(btAdd);
+		controlScreen.add(btRemove);
+		controlScreen.add(btUpdate);
+		controlScreen.add(filterPanel);
+		
+		controlScreen.setLayout(null);
+		controlScreen.setSize(800, 200);
+		controlScreen.setVisible(true);
+		controlScreen.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		
 		table.setEnabled(false);
-		// table.setLocation(30, 40);
-		table.setPreferredSize(new Dimension(200, 300));
 		table.setFont(f);
 		table.getTableHeader().setFont(f);
 		
-		btAdd.setBounds(50, 340, 200, 40);
-		btAdd.setFont(f);
-		btUpdate.setBounds(300, 340, 200, 40);
-		btUpdate.setFont(f);
-		btRemove.setBounds(550, 340, 200, 40);
-		btRemove.setFont(f);
-
 		
-		screen.add(btAdd);
-		screen.add(btRemove);
-		screen.add(btUpdate);
-		screen.add(scrollPane);
-		
-		screen.setSize(800, 440);
-		screen.setLocationRelativeTo(null);
-		screen.setVisible(true);
-		screen.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		tableScreen.add(scrollPane); 
+		tableScreen.setSize(800, 300);
+		tableScreen.setLocationRelativeTo(null);
+		tableScreen.setVisible(true);
+		tableScreen.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		tableScreen.getLocation();
+		controlScreen.setLocation((int)tableScreen.getLocation().getX(), (int)tableScreen.getLocation().getY() - 200);
 		
 		btAdd.addActionListener(this);
 		btUpdate.addActionListener(this);
 		btRemove.addActionListener(this);
+		btFilter.addActionListener(this);
+		
+	}
+	
+	public MovieScreen() {
+		
+		String columns [] = { "Id", "Nome", "Gênero", "Duração (min)"};
+		
+		tableModel = new DefaultTableModel(MovieController.getMovieObjList(), columns);
+		table = new JTable(tableModel);
+		scrollPane = new JScrollPane(table);
+		filterPanel = new JPanel();
+		filterBox = new JComboBox<String>(MovieController.getGenreList());
+		btFilter = new JButton("aplicar filtro");
+		btAdd = new JButton("Adicionar filme");
+		btRemove = new JButton("Remover filme");
+		btUpdate = new JButton("Atualizar filme");
+		
+		initFrame();
+		
+	}
+	
+	public MovieScreen(String genre) {
+		
+		String columns [] = { "Id", "Nome", "Gênero", "Duração (min)"};
+		
+		tableModel = new DefaultTableModel(MovieController.getMovieObjList(genre), columns);
+		table = new JTable(tableModel);
+		scrollPane = new JScrollPane(table);
+		filterPanel = new JPanel();
+		filterBox = new JComboBox<String>(MovieController.getGenreList());
+		btFilter = new JButton("aplicar filtro");
+		btAdd = new JButton("Adicionar filme");
+		btRemove = new JButton("Remover filme");
+		btUpdate = new JButton("Atualizar filme");
+		
+		initFrame();	
 	}
 
 	@Override
@@ -73,7 +117,9 @@ public class MovieScreen implements ActionListener{
 		btAdd.removeActionListener(this);
 		btUpdate.removeActionListener(this);
 		btRemove.removeActionListener(this);
-		screen.dispose();
+		btFilter.removeActionListener(this);
+		controlScreen.dispose();
+		tableScreen.dispose();
 		
 		if (src == btAdd) {
 			new MovieDetails();
@@ -83,6 +129,10 @@ public class MovieScreen implements ActionListener{
 		}
 		if (src == btRemove) {
 			new MovieIdScreen(true);
+		}
+		if (src == btFilter) {
+			tableModel.setNumRows(0);
+			new MovieScreen((String)filterBox.getSelectedItem());
 		}
 	}
 	
@@ -100,7 +150,6 @@ public class MovieScreen implements ActionListener{
 			this.box = new JComboBox<Integer>();
 			this.btOption = new JButton("OK");
 			this.removing = removing;
-			
 			for (int i = 0; i < MovieController.getListSize(); i++) {
 				box.addItem(i);
 			}
@@ -108,7 +157,7 @@ public class MovieScreen implements ActionListener{
 			box.setBounds(50, 30, 350, 40);
 			box.setFont(f);
 			
-			text.setBounds(50, 80, 350, 40);
+			text.setBounds(50, 70, 350, 40);
 			text.setFont(f);
 			
 			btOption.setBounds(150, 110, 150, 30);

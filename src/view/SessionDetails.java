@@ -1,16 +1,12 @@
 package view;
 
 import javax.swing.*;
-
 import controller.MovieController;
 import controller.SessionController;
 
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.GregorianCalendar;
-
-import model.Session;
 
 public class SessionDetails implements ActionListener{
 	
@@ -20,37 +16,61 @@ public class SessionDetails implements ActionListener{
 	private static int labelInputXDis = 30 + labelSize[0];
 	private static Font f = new Font("Lucida Sans", Font.PLAIN, 15);
 
-	private JFrame screen = new JFrame("");
-	private JLabel roomLabel = new JLabel("Sala:");
-	private JTextField roomInput = new JTextField("");
-	private JLabel dateLabel = new JLabel("Data:");
-	private JTextField dateInput = new JTextField("");
-	private JLabel genreLabel = new JLabel("Filme:");
-	private JTextField genreInput = new JTextField("");
-
+	private JFrame screen;
+	private JLabel nameLabel;
+	private JComboBox<String> nameInput;
+	private JLabel roomLabel;
+	private JComboBox<String> roomInput;
+	private JLabel dateLabel;
+	private JTextField dateInput;
+	private JLabel timeLabel;
+	private JTextField timeInput;
 	
-	private static JButton btSave = new JButton("Salvar");
-	private static JButton btCancel = new JButton("Cancelar");
+	private JButton btSave;
+	private JButton btCancel;
 	
-	private Session session;
+	private String[] sessionInfo;
+	private int sessionId;
 	private boolean updating;
+	
+	public void initFrame() {
+		this.screen = new JFrame("");
+		this.nameLabel = new JLabel("Filme:");
+		this.nameInput = new JComboBox<String>(MovieController.getMovieNameList());
+		this.roomLabel = new JLabel("Sala:");
+		this.roomInput = new JComboBox<String>(SessionController.getRooms());
+		this.dateLabel = new JLabel("Dia:");
+		this.dateInput = new JTextField("");
+		this.timeLabel = new JLabel("Hora:");
+		this.timeInput = new JTextField("");
+		
+		this.btSave = new JButton("Salvar");
+		this.btCancel = new JButton("Cancelar");
+		this.btSave.addActionListener(this);
+		this.btCancel.addActionListener(this);
+	}
 	
 	public void displayScreen() {
 		
-		roomLabel.setBounds(30, 40,labelSize[0], labelSize[1]);
-		roomInput.setBounds(labelInputXDis, 40, inputSize[0], inputSize[1]);
+		nameLabel.setBounds(30, 40,labelSize[0], labelSize[1]);
+		nameInput.setBounds(labelInputXDis, 40, inputSize[0], inputSize[1]);
+		nameLabel.setFont(f);
+		nameInput.setFont(f);
+		
+		roomLabel.setBounds(30, 80,labelSize[0], labelSize[1]);
+		roomInput.setBounds(labelInputXDis, 80, inputSize[0], inputSize[1]);
 		roomLabel.setFont(f);
 		roomInput.setFont(f);
 		
-		dateLabel.setBounds(30, 80,labelSize[0], labelSize[1]);
-		dateInput.setBounds(labelInputXDis, 80, inputSize[0], inputSize[1]);
+		dateLabel.setBounds(30, 120,labelSize[0], labelSize[1]);
+		dateInput.setBounds(labelInputXDis, 120, inputSize[0], inputSize[1]);
 		dateLabel.setFont(f);
 		dateInput.setFont(f);
 		
-		genreLabel.setBounds(30, 120,labelSize[0], labelSize[1]);
-		genreInput.setBounds(labelInputXDis, 120, inputSize[0], inputSize[1]);
-		genreLabel.setFont(f);
-		genreInput.setFont(f);
+		timeLabel.setBounds(30, 160,labelSize[0], labelSize[1]);
+		timeInput.setBounds(labelInputXDis, 160, inputSize[0], inputSize[1]);
+		timeLabel.setFont(f);
+		timeInput.setFont(f);
 		
 		btSave.setBounds(
 				labelInputXDis + inputSize[0] + 50,
@@ -67,33 +87,38 @@ public class SessionDetails implements ActionListener{
 		
 		screen.add(btSave);
 		screen.add(btCancel);
+		screen.add(nameLabel);
+		screen.add(nameInput);
 		screen.add(roomLabel);
 		screen.add(roomInput);
 		screen.add(dateLabel);
 		screen.add(dateInput);
-		screen.add(genreLabel);
-		screen.add(genreInput);
+		screen.add(timeLabel);
+		screen.add(timeInput);
 
 		screen.setLayout(null);
 		screen.setSize(800, 265);
 		screen.setLocationRelativeTo(null);
 		screen.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		screen.setVisible(true);
-		
-		btSave.addActionListener(this);
-		btCancel.addActionListener(this);
 	}
 	
 	public SessionDetails() {
+		initFrame();
 		updating = false;
 		displayScreen();
 	}
+	
 	public SessionDetails(int id) {
+		initFrame();
 		updating = true;
-		session = SessionController.getSession(id);
-		// roomInput.setText(session.getRoom());
-		dateInput.setText(session.getDate().toString());
-		genreInput.setText(session.getMovie().getName());
+		this.sessionId = id;
+		this.sessionInfo = SessionController.getSessionInfo(sessionId);
+		
+		nameInput.setSelectedItem(sessionInfo[0]);
+		roomInput.setSelectedItem(sessionInfo[1]);
+		dateInput.setText(sessionInfo[2]);
+		timeInput.setText(sessionInfo[3]);
 		displayScreen();
 	}
 
@@ -103,30 +128,38 @@ public class SessionDetails implements ActionListener{
 		
 		if (src == btSave) {
 			try {	
-
-				session = new Session(
-                            MovieController.getMovie(2),
-                            new GregorianCalendar(2021, 10, 10 + 2, 10 + 10, 0),
-                            'a'
-                            );
-				
+				btSave.removeActionListener(this);
 				if (!updating) {
-					SessionController.register(session);
+					SessionController.register(
+						SessionController.createSession(
+								(String)nameInput.getSelectedItem(),
+								(char)roomInput.getSelectedItem(),
+								(String)dateInput.getText(),
+								(String)timeInput.getText())
+					);
+				} else {
+					SessionController.update(
+						this.sessionId, 
+						SessionController.createSession(
+							(String)nameInput.getSelectedItem(),
+							(char)roomInput.getSelectedItem(),
+							(String)dateInput.getText(),
+							(String)timeInput.getText())
+					);
 				}
-				
 //				registerSuccessMessage();
-				screen.dispose();
-				new SessionScreen();	
 			} catch (Exception ex){
 //				registerErrorMessage();
+			} finally {
+				screen.dispose();
+				new SessionScreen();
 			}
 		}
 		if (src == btCancel) {
+			btCancel.removeActionListener(this);
 //			operationCanceledMessage();
-			screen.dispose();
 			new SessionScreen();	
+			screen.dispose();
 		}
-		
 	}
-	
 }

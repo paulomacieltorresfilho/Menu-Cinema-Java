@@ -1,6 +1,8 @@
 package view;
 
 import java.awt.Font;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -55,18 +57,23 @@ public class Menu implements ActionListener{
 		btMovie.addActionListener(this);
 		btSession.addActionListener(this);
 		btSnack.addActionListener(this);
+		btTicket.addActionListener(this);
 	}
-
-	public void changeVisibility() {
-		menu.setVisible(!menu.isVisible());
+	
+	public static void main(String[] args) {
+		new Menu();
 	}
 	
 	public static int getCenteredPosition(int frameSize, int labelSize) {
 		return (frameSize - labelSize) / 2;
 	}
 	
-	public static void main(String[] args) {
-		new Menu();
+	public static double[] getScreenSize() {
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		double width = screenSize.getWidth();
+		double height = screenSize.getHeight();
+		double[] r = {width, height};
+		return r;
 	}
 	
 	@Override
@@ -83,7 +90,7 @@ public class Menu implements ActionListener{
 			new SnackScreen();
 		}
 		if (src == btTicket) {
-			new TicketScreen();
+			new BuyScreen();
 		}
 		
 	}
