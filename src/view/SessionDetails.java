@@ -149,7 +149,6 @@ public class SessionDetails implements ActionListener{
 				}
 				Messages.registerSuccessMessage();
 			} catch (Exception ex){
-				System.out.print(ex);
 				Messages.registerErrorMessage();
 			} finally {
 				screen.dispose();

@@ -30,7 +30,7 @@ public class SessionController{
 		
 		String[] dateSplit = date.split("/");
 		int day = Integer.parseInt(dateSplit[0]);
-		int month = Integer.parseInt(dateSplit[1]);
+		int month = Integer.parseInt(dateSplit[1]) - 1;
 		int year = Integer.parseInt(dateSplit[2]);
 
 		String[] timeSplit = time.split(":");
@@ -46,11 +46,11 @@ public class SessionController{
 		GregorianCalendar gc = s.getDate();
 		String[] sInfo = {
 			s.getMovie().getName(),
-			Character.toString(s.getRoom()).toUpperCase(),
+			s.getRoom().toUpperCase(),
 			String.format(
 				"%02d/%02d/%d",
 				gc.get(GregorianCalendar.DATE),
-				gc.get(GregorianCalendar.MONTH),
+				gc.get(GregorianCalendar.MONTH) + 1,
 				gc.get(GregorianCalendar.YEAR)
 				),
 			String.format(
@@ -62,15 +62,13 @@ public class SessionController{
 		return sInfo;
 	}
 	
-	public static void register(Session s) throws Exception {
+	public static void register(Session s){
 		if (isSessionAvailable(s)) sessionList.add(s);
-//        else throw new Exception();
 	}
 	
-	public static void update(int id, Session s) throws Exception {
+	public static void update(int id, Session s){
 		sessionList.remove(id);
 		if (isSessionAvailable(s)) sessionList.add(s);
-//        else throw new Exception();
 	}
 	
 	public static void remove(Session s) {
@@ -171,7 +169,6 @@ public class SessionController{
             GregorianCalendar endOfSessionRoom = (GregorianCalendar) startOfSessionRoom.clone();
             endOfSessionRoom.add(GregorianCalendar.MINUTE, movieDurationRoom);
             if ( !(startOfSession.compareTo(endOfSessionRoom) > 0 || endOfSession.compareTo(startOfSessionRoom) < 0) ) {
-                System.out.println("Esta data não está disponível");
                 return false;
             } 
         }

@@ -1,5 +1,6 @@
 package tests;
 
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
@@ -13,20 +14,20 @@ class TestMovieController {
 	@Test
 	void testaddRandomData() {
 		MovieController.addRandomData();
-		assertTrue(MovieController.getMovieList() != null);
+		assertNotEquals(MovieController.getMovieList(), null);
 	}
 	
 	@Test
 	void testCreateMovie() {
 		String name = "Casa";		
 		MovieController.register(MovieController.createMovie(name, "sobre a casa", "romace", 120));
-		assertTrue(MovieController.getMovie(name).getName().equals(name));
+		assertEquals(MovieController.getMovie(name).getName(), name);
 	}
 
 	@Test
 	void testGetMovieList() {
 		MovieController.addRandomData();
-		assertTrue(MovieController.getMovie(0) != null);
+		assertNotEquals(MovieController.getMovie(0), null);
 	}
 
 	@Test

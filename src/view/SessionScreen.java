@@ -26,6 +26,7 @@ public class SessionScreen implements ActionListener{
 	private JButton btAdd;
 	private JButton btRemove;
 	private JButton btUpdate;
+	private JButton btBuyTicket;
 	
 	public void initFrame() {
 		btAdd.setBounds(50, 20, 200, 40);
@@ -34,6 +35,8 @@ public class SessionScreen implements ActionListener{
 		btUpdate.setFont(f);
 		btRemove.setBounds(550, 20, 200, 40);
 		btRemove.setFont(f);
+		btBuyTicket.setBounds(300, 170, 200, 40);
+		btBuyTicket.setFont(f);
 		
 		filterBox.setBounds(75, 0, 250, 30);
 		filterBox.setFont(f);
@@ -49,10 +52,11 @@ public class SessionScreen implements ActionListener{
 		controlScreen.add(btAdd);
 		controlScreen.add(btRemove);
 		controlScreen.add(btUpdate);
+		controlScreen.add(btBuyTicket);
 		controlScreen.add(filterPanel);
 		
 		controlScreen.setLayout(null);
-		controlScreen.setSize(800, 200);
+		controlScreen.setSize(800, 270);
 		controlScreen.setVisible(true);
 		controlScreen.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
@@ -67,11 +71,12 @@ public class SessionScreen implements ActionListener{
 		tableScreen.setVisible(true);
 		tableScreen.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		tableScreen.getLocation();
-		controlScreen.setLocation((int)tableScreen.getLocation().getX(), (int)tableScreen.getLocation().getY() - 200);
+		controlScreen.setLocation((int)tableScreen.getLocation().getX(), (int)tableScreen.getLocation().getY() - controlScreen.getHeight());
 		
 		btAdd.addActionListener(this);
 		btUpdate.addActionListener(this);
 		btRemove.addActionListener(this);
+		btBuyTicket.addActionListener(this);
 		btFilter.addActionListener(this);
 		
 	}
@@ -89,6 +94,7 @@ public class SessionScreen implements ActionListener{
 		btAdd = new JButton("Adicionar sessão");
 		btRemove = new JButton("Remover sessão");
 		btUpdate = new JButton("Atualizar sessão");
+		btBuyTicket= new JButton("COMPRAR INGRESSO");
 		
 		initFrame();
 		
@@ -107,6 +113,7 @@ public class SessionScreen implements ActionListener{
 		btAdd = new JButton("Adicionar filme");
 		btRemove = new JButton("Remover filme");
 		btUpdate = new JButton("Atualizar filme");
+		btBuyTicket= new JButton("COMPRAR INGRESSO");
 		
 		initFrame();	
 	}
@@ -125,10 +132,13 @@ public class SessionScreen implements ActionListener{
 			new SessionDetails();
 		}
 		if (src == btUpdate) {
-			new SessionIdScreen(false);
+			new SessionIdScreen((JButton) src);
 		}
 		if (src == btRemove) {
-			new SessionIdScreen(true);
+			new SessionIdScreen((JButton) src);
+		}
+		if (src == btBuyTicket) {
+			new TicketSessionScreen();
 		}
 		if (src == btFilter) {
 			tableModel.setNumRows(0);
@@ -142,14 +152,14 @@ public class SessionScreen implements ActionListener{
 		private JComboBox<Integer> box;
 		private JButton btOption;
 		private int optionId;
-		private boolean removing;
+		private JButton action;
 
-		public SessionIdScreen(boolean removing) {
+		public SessionIdScreen(JButton action) {
 			this.screen = new JFrame();
 			this.text = new JLabel("Selecione o id da sessão");
 			this.box = new JComboBox<Integer>();
 			this.btOption = new JButton("OK");
-			this.removing = removing;
+			this.action = action;
 			for (int i = 0; i < SessionController.getListSize(); i++) {
 				box.addItem(i);
 			}
@@ -183,7 +193,7 @@ public class SessionScreen implements ActionListener{
 			if (src == btOption) {
 				optionId = (int) box.getSelectedItem();
 				screen.dispose();
-				if (removing) {
+				if (action == btRemove) {
 					SessionController.remove(optionId);
 					new SessionScreen();
 				} else new SessionDetails(optionId);	

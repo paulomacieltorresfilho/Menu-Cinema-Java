@@ -9,10 +9,10 @@ public class Messages {
 	}
 	
 	public static void registerErrorMessage() {
-		JOptionPane.showConfirmDialog(null, "Dados inv·lidos, verifique se tudo foi digitado corretamente", "Erro", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+		JOptionPane.showConfirmDialog(null, "Dados inv√°lidos, verifique se tudo foi digitado corretamente", "Erro", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
 	}
 
 	public static void operationCanceledMessage() {
-		JOptionPane.showMessageDialog(null, "OperaÁ„o cancelada");
+		JOptionPane.showMessageDialog(null, "Opera√ß√£o cancelada");
 	}
 }

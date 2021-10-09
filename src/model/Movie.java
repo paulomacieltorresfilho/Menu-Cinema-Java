@@ -13,17 +13,6 @@ public class Movie{
         this.setDuration(duration);
     }
 
-    
-    @Override
-    public String toString() {
-        String text = "";
-        text += "Nome: " + this.name + "\n";
-        text += "Sinopse: " + this.synopsis + "\n";
-        text += "Gênero: " + this.genre + "\n";
-        text += "Duração : " + this.duration + "min";
-        return text;
-    }
-
     // Gets & Sets
     public String getName() {
         return name;

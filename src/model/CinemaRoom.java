@@ -4,12 +4,12 @@ import java.util.ArrayList;
 public abstract class CinemaRoom {
     
 	protected static int roomSize = 20;
-    protected char room;
+    protected String room;
     protected boolean room3d;
     protected double ticketPrice;
     protected ArrayList<Seat> seatList = new ArrayList<Seat>(roomSize);
 
-    public CinemaRoom(char room) {
+    public CinemaRoom(String room) {
         Seat s;
         int column;
         for (int i = 0; i < 4; i++) {
@@ -23,13 +23,13 @@ public abstract class CinemaRoom {
         changeRoom(room);
     }
 
-    public void changeRoom(char room) {   
+    public void changeRoom(String room) {   
         switch (room) {
-            case 'a', 'b':
+            case "a", "b":
                 this.room3d = false;
                 this.ticketPrice = 20.00;
                 break;
-            case 'c', 'd':
+            case "c", "d":
                 this.room3d = true;
                 this.ticketPrice = 30.00;
                 break;
@@ -40,7 +40,7 @@ public abstract class CinemaRoom {
         this.room = room;
     }
     
-    public char getRoom() {
+    public String getRoom() {
         return this.room;
     }
     
@@ -55,4 +55,5 @@ public abstract class CinemaRoom {
     public ArrayList<Seat> getSeatList() {
     	return this.seatList;
     }
+    
 }

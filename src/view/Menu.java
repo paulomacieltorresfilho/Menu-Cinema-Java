@@ -20,7 +20,6 @@ public class Menu implements ActionListener{
 	private JButton btMovie = new JButton("FILMES");
 	private JButton btSession = new JButton("SESSÕES");
 	private JButton btSnack = new JButton("LANCHES");
-	private JButton btTicket = new JButton("COMPRAR TICKET");
 	
 	public Menu() {
 
@@ -39,14 +38,11 @@ public class Menu implements ActionListener{
 		btSession.setBounds(btXPosition,100,200,35);
 		btSnack.setFont(btFont);
 		btSnack.setBounds(btXPosition,150,200,35);
-		btTicket.setFont(btFont);
-		btTicket.setBounds(btXPosition, 200, 200, 35);
 		
 		menu.add(title);
 		menu.add(btMovie);
 		menu.add(btSession);
 		menu.add(btSnack);
-		menu.add(btTicket);
 		
 		menu.setLayout(null);
 		menu.setSize(menuWidth, menuHeight);
@@ -57,7 +53,6 @@ public class Menu implements ActionListener{
 		btMovie.addActionListener(this);
 		btSession.addActionListener(this);
 		btSnack.addActionListener(this);
-		btTicket.addActionListener(this);
 	}
 	
 	public static void main(String[] args) {
@@ -89,10 +84,6 @@ public class Menu implements ActionListener{
 		if (src == btSnack) {
 			new SnackScreen();
 		}
-		if (src == btTicket) {
-			new BuyScreen();
-		}
-		
 	}
 
 }
